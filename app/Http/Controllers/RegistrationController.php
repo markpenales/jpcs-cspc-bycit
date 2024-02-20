@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
 
 class RegistrationController extends Controller
@@ -31,6 +32,15 @@ class RegistrationController extends Controller
             ]
         );
 
-        return redirect()->intended();
+        auth()->login($user);
+        return redirect()->route('home');
+    }
+
+    public function home()
+    {
+        return Inertia::render('Welcome', [
+            'login' => route('sso.redirect'),
+            'user' => auth()->user(),
+        ]);
     }
 }
