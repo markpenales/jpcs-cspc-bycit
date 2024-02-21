@@ -3,12 +3,6 @@ import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import { ref, watch } from 'vue';
 
-const getSectionData = (program, year) => {
-    return axios.get(`api/sections/${program}/${year}`).then(response => {
-        return response.data
-    })
-}
-
 const props = defineProps({
     'login': {
         type: String,
@@ -37,17 +31,25 @@ const program = ref('');
 const year = ref('');
 const section = '';
 
-watch(year, async () => {
-    if (year.value && program.value) {
-        sectionData.value = await getSectionData(program.value, year.value)
-    }
-})
-watch(program, async () => {
-    if (year.value && program.value) {
-        sectionData.value = await getSectionData(program.value, year.value)
-    }
-})
+const getSectionData = (program, year) => {
+    return axios.get(`api/sections/${program}/${year}`).then(response => {
+        return response.data
+    })
+}
 
+const fetchData = async () => {
+    if (year.value && program.value) {
+        try {
+            sectionData.value = await getSectionData(program.value, year.value);
+        } catch (error) {
+            // TODO: Display the error in a toast
+            console.error('An error occurred:', error);
+        }
+    }
+};
+
+watch(year, fetchData);
+watch(program, fetchData);
 </script>
 
 <template>
