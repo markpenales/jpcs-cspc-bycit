@@ -14,15 +14,16 @@ class ProgramSeeder extends Seeder
     public function run(): void
     {
         $programs = [
-            'Bachelor of Science in Computer Science',
-            "Bachelor of Science in Information Technology",
-            "Bachelor of Science in Information Science",
-            "Bachelor Library and Information Science",
+            'Bachelor of Science in Computer Science' => "BSCS",
+            "Bachelor of Science in Information Technology" => "BSIT",
+            "Bachelor of Science in Information Science" => "BSIS",
+            "Bachelor Library and Information Science" => "BLIS",
         ];
 
-        foreach ($programs as $program) {
+        foreach ($programs as $program => $code) {
             Program::query()->firstOrCreate([
-                'name' => $program
+                'name' => $program,
+                'code' => $code
             ]);
         }
     }

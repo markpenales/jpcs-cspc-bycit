@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             CollegeSeeder::class,
             ProgramSeeder::class,
             YearSeeder::class,
+            SectionSeeder::class,
         ]);
     }
 }
