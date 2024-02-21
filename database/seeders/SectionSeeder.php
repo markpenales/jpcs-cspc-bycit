@@ -54,6 +54,7 @@ class SectionSeeder extends Seeder
             "BLIS 1A",
             "BLIS 2A",
             "BLIS 3A",
+            "BLIS 3B",
             "BLIS 4A",
             "BLIS 4B",
             "BSIS 1A",
@@ -64,7 +65,6 @@ class SectionSeeder extends Seeder
             "BSIS 2C",
             "BSIS 3A",
             "BSIS 3B",
-            "BSIS 3C",
             "BSIS 4A",
             "BSIS 4B",
         ];
