@@ -61,7 +61,7 @@ class RegistrationController extends Controller
             'sections' => Section::all(),
             'sizes' => TShirtSize::all(),
             'suffixes' => Suffix::all(),
-            'assets' => $assets
+            'assets' => $assets,
         ]);
     }
 }

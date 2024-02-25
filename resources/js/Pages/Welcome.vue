@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import { defineProps, ref, watch, onMounted, onUnmounted } from 'vue';
 import { message } from 'ant-design-vue'
+import { router } from '@inertiajs/vue3';
 const props = defineProps({
     'login': {
         type: String,
@@ -40,8 +41,8 @@ const firstName = ref(props.user?.first_name ?? '');
 const middleInitial = ref(props.user?.middle_initial ?? '');
 const college = ref(props.user?.college_id ?? '');
 const nickname = ref(props.user?.nickname ?? '');
-const program = ref(props.user?.section.program_id ?? '');
-const year = ref(props.user?.section.year_id ?? '');
+const program = ref(props.user?.section?.program_id ?? '');
+const year = ref(props.user?.section?.year_id ?? '');
 const section = ref(props.user?.section_id ?? '');
 const tshirt = ref(props.user?.t_shirt_size_id ?? '');
 const suffix = ref(props.user?.suffix ?? '');
@@ -49,7 +50,7 @@ const dietaryRestrictions = ref(props.user?.dietary_restrictions ?? '');
 const sectionData = ref([]);
 const errors = ref([])
 const isDesktop = ref(true)
-var showProgramAndSection = ref(false);
+const showProgramAndSection = ref(false);
 
 const fetchData = () => {
     if (year.value && program.value) {
@@ -73,7 +74,14 @@ const submit = async () => {
         suffix: suffix.value,
         dietaryRestrictions: dietaryRestrictions.value,
         user: props.user.id
-    }).then(response => message.success(response.data.data.message)).catch(error => { errors.value = error.response.data.errors; message.error("Error: " + error.response.data.message) })
+    }).then(response => {
+        message.success(response.data.data.message + "\nYou will be logged out in 5 seconds", 5, () => {
+            router.post('/logout');
+        })
+    }).catch(error => {
+        errors.value = error.response.data.errors;
+        message.error("Error: " + error.response.data.message)
+    })
 }
 
 const handleResize = () => {
@@ -93,7 +101,7 @@ watch(college, () => {
 onMounted(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
-    showProgramAndSection = college.value != ''
+    showProgramAndSection.value = college.value != ''
     fetchData()
 });
 
@@ -105,7 +113,6 @@ onUnmounted(() => {
 </script>
 
 <template>
-    {{ user }}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 

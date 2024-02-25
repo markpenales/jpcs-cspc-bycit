@@ -27,5 +27,11 @@ Route::middleware(['guest'])->prefix('/callback')->as('sso.')->group(function ()
         ->name('callback');
 });
 
+Route::middleware(['auth'])->post('/logout', function(){
+    auth()->logout();
+    session()->flush();
+    return redirect('/');
+});
+
 
 require __DIR__ . '/auth.php';

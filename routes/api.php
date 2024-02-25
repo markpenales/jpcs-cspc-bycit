@@ -36,6 +36,19 @@ Route::post('/register', function (Request $request) {
         'dietaryRestrictions' => ['nullable', 'max:255', 'min:3'],
         'user' => 'required'
     ]);
+    
+    // Check if the college value is equal to 1
+    if ($attributes['college'] == 1) {
+        // Add additional validation rules for program, year, and section
+        $additionalRules = [
+            'program' => 'required|exists:programs,id',
+            'year' => 'required|exists:years,id',
+            'section' => 'required|exists:sections,id',
+        ];
+    
+        // Merge additional rules with the existing rules
+        $attributes = array_merge($attributes, $request->validate($additionalRules));
+    }
 
 
     $lastName = Str::of($attributes['lastName'])->trim()->replaceMatches('/\s+/', ' ')->ucfirst()->toString();
