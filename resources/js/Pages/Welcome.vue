@@ -76,7 +76,7 @@ const submit = async () => {
 }
 
 const handleResize = () => {
-  isDesktop.value = window.innerWidth >= 992;
+    isDesktop.value = window.innerWidth >= 992;
 };
 
 watch([year, program], fetchData, { deep: true });
@@ -85,12 +85,12 @@ watch(college, () => {
 })
 
 onMounted(() => {
-  handleResize();
-  window.addEventListener('resize', handleResize);
+    handleResize();
+    window.addEventListener('resize', handleResize);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
+    window.removeEventListener('resize', handleResize);
 });
 </script>
 
@@ -102,8 +102,19 @@ onUnmounted(() => {
 
     <div :style='{ "background-image": "url(" + assets.background + ")", "min-height": "100vh", "min-width": "100vw", "background-size": "cover" }'
         class="font-small-caps">
-        <div v-if="user === null">
-            <a :href="login">Begin Journey</a>
+        <div v-if="user === null" class="d-flex justify-content-center align-items-center row w-100" style="height: 100vh;">
+            <div>
+                <div>
+                <div :class="{ 'd-flex': true, 'justify-content-center': true }">
+                    <img :src="assets.bycit_logo" alt="" :width="{ 300: isDesktop, 500: !isDesktop }">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <a :href="login" class="btn rounded-pill fw-bold text-white px-4" style="background-color: #A10075;">Begin Journey</a>
+
+            </div>
+            </div>
+           
         </div>
 
         <div v-else class="row">
@@ -112,8 +123,9 @@ onUnmounted(() => {
             </div>
             <div class="col-lg-8">
                 <div>
-                    <div class="d-flex justify-content-end mt-5">
-                        <img :src="assets.bycit_logo" alt="" width="300">
+                    <div
+                        :class="{ 'd-flex': true, 'justify-content-end': isDesktop, 'mt-5': true, 'justify-content-center': !isDesktop }">
+                        <img :src="assets.bycit_logo" alt="" :width="{ 300: isDesktop, 500: !isDesktop }">
                     </div>
                     <div class="justify-content-start text-white fw-bold fst-italic fs-3 ms-5">
                         <span>
@@ -193,7 +205,7 @@ onUnmounted(() => {
                                 <div class="col-12-lg">
                                     <select v-model="college"
                                         :class="{ 'border-danger': errors.college, 'font-small-caps': true, 'form-select': true }">
-                                        <option value="" disabled selected>Select College</option>
+                                        <option value="" disabled selected>Select School</option>
                                         <option v-for="college in colleges" :value="college.id">{{ college.name }}</option>
                                     </select>
                                     <span v-if="errors.college" class="text-danger">{{ errors.college[0] }}</span>
@@ -246,8 +258,8 @@ onUnmounted(() => {
                             </div>
 
                             <div>
-                                <button type="button" class="btn text-white w-100 fw-bold mt-1" style="background-color: #A10075;"
-                                    @click="submit">Confirm</button>
+                                <button type="button" class="btn text-white w-100 fw-bold mt-1"
+                                    style="background-color: #A10075;" @click="submit">Confirm</button>
                             </div>
                         </form>
                     </div>
@@ -281,12 +293,13 @@ body {
         0 0 4px rgb(255, 255, 255);
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
     border: 1px solid #A10075 !important;
     text-align: center;
 }
 
-::placeholder{
+::placeholder {
     text-align: center;
 }
 </style>
