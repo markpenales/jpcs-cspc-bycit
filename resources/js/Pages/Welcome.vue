@@ -39,6 +39,7 @@ const section = ref('');
 const tshirt = ref('');
 const dietaryRestrictions = ref('');
 const sectionData = ref([]);
+var showProgramAndSection = ref(false);
 
 const fetchData = () => {
     if (year.value && program.value) {
@@ -49,6 +50,9 @@ const fetchData = () => {
 };
 
 watch([year, program], fetchData, { deep: true });
+watch(college, ()=>{
+    showProgramAndSection.value = true;
+})
 </script>
 
 <template>
@@ -60,36 +64,47 @@ watch([year, program], fetchData, { deep: true });
 
         <div v-else>
             <form method="post">
-                <input type="text" v-model="lastName" placeholder="Last Name">
-                <input type="text" v-model="firstName" placeholder="First Name">
-                <input type="text" v-model="middleInitial" placeholder="Middle Initial">
-                <input type="text" v-model="nickname" placeholder="Nickname">
-                <select v-model="tshirt">
-                    <option value="" disabled selected>Select T-Shirt Size</option>
-                    <option v-for="size in sizes" :value="size.id">{{ size.name }}</option>
-                </select>
-                <select v-model="college">
-                    <option value="" disabled selected>Select College</option>
-                    <option v-for="college in colleges" :value="college.id">{{ college.name }}</option>
-                </select>
+                <div>
+                    <input type="text" v-model="lastName" placeholder="Last Name">
+                    <input type="text" v-model="firstName" placeholder="First Name">
+                    <input type="text" v-model="middleInitial" placeholder="Middle Initial">
+                </div>
+                <div>
+                    <input type="text" v-model="nickname" placeholder="Nickname">
+                    <select v-model="tshirt">
+                        <option value="" disabled selected>Select T-Shirt Size</option>
+                        <option v-for="size in sizes" :value="size.id">{{ size.name }}</option>
+                    </select>
+                </div>
+                <div>
+                    <select v-model="college">
+                        <option value="" disabled selected>Select College</option>
+                        <option v-for="college in colleges" :value="college.id">{{ college.name }}</option>
+                    </select>
+                </div>
 
-                <select v-model="program">
-                    <option value="" disabled selected>Select Program</option>
-                    <option v-for="program in programs" :value="program.id">{{ program.name }}</option>
-                </select>
+                <div v-if="showProgramAndSection">
+                    <select v-model="program">
+                        <option value="" disabled selected>Select Program</option>
+                        <option v-for="program in programs" :value="program.id">{{ program.name }}</option>
+                    </select>
 
-                <select v-model="year">
-                    <option value="" disabled selected>Select Year</option>
-                    <option v-for="year in years" :value="year.id">{{ year.name }}</option>
-                </select>
+                    <select v-model="year">
+                        <option value="" disabled selected>Select Year</option>
+                        <option v-for="year in years" :value="year.id">{{ year.name }}</option>
+                    </select>
 
-                <select v-model="section">
-                    <option value="" disabled selected>Select Section</option>
-                    <option v-for="s in sectionData" :value="s.id">{{ s.section }}</option>
-                </select>
+                    <select v-model="section">
+                        <option value="" disabled selected>Select Section</option>
+                        <option v-for="s in sectionData" :value="s.id">{{ s.section }}</option>
+                    </select>
+                </div>
 
-                <textarea v-model="dietaryRestrictions" cols="30" rows="10" placeholder="Dietary Restrictions"></textarea>
 
+                <div>
+                    <textarea v-model="dietaryRestrictions" cols="30" rows="10"
+                        placeholder="Dietary Restrictions"></textarea>
+                </div>
             </form>
         </div>
     </div>
