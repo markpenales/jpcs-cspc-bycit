@@ -1,6 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
+import { guardReactiveProps } from 'vue';
 import { ref, watch } from 'vue';
 
 const props = defineProps({
@@ -19,37 +20,33 @@ const props = defineProps({
     },
     'years': {
         required: true,
+    },
+    'sections': {
+        required: true
     }
 })
 
 const lastName = props.user?.last_name ?? null;
 const firstName = props.user?.first_name ?? null;
 const middleInitial = props.user?.middle_initial ?? null;
-const sectionData = ref([]);
 const college = '';
 const program = ref('');
 const year = ref('');
 const section = '';
+var sectionData = [];
 
-const getSectionData = (program, year) => {
-    return axios.get(`api/sections/${program}/${year}`).then(response => {
-        return response.data
-    })
-}
 
-const fetchData = async () => {
+const fetchData = () => {
     if (year.value && program.value) {
-        try {
-            sectionData.value = await getSectionData(program.value, year.value);
-        } catch (error) {
-            // TODO: Display the error in a toast
-            console.error('An error occurred:', error);
-        }
+        sectionData = props.sections
+            .filter(section => section.program_id === program.value && section.year_id === year.value)
+            .map(({ id, section }) => ({ id, section }));
+
     }
 };
 
-watch(year, fetchData);
-watch(program, fetchData);
+watch(year, fetchData, {deep: true});
+watch(program, fetchData, {deep: true});
 </script>
 
 <template>
@@ -81,9 +78,11 @@ watch(program, fetchData);
                 </select>
 
                 <select v-model="section">
-                    <option value="" disabled selected>Select Section</option>
-                    <option v-for="section in sectionData.data" :value="section.id">{{ section.section }}</option>
+                    <option value="" disabled selected>Select Program and Year first</option>
+                    <option v-for="s in sectionData" :value="s.id">{{ s.section }}</option>
                 </select>
+
+                {{ sectionData }}
             </form>
         </div>
     </div>
