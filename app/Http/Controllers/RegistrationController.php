@@ -24,7 +24,7 @@ class RegistrationController extends Controller
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
 
-        $user = User::query()->updateOrCreate(
+        $user = User::query()->firstOrCreate(
             [
                 'email' => $googleUser->email,
                 'google_id' => $googleUser->id
@@ -41,11 +41,14 @@ class RegistrationController extends Controller
         );
 
         auth()->login($user);
-        return redirect()->route('home');
+        return redirect()->route('register');
     }
 
     public function home()
     {
+        if(auth()->user()){
+            return redirect()->route('register');
+        }
         $assets = [
             'mascot' => asset('/assets/mascot.png'),
             'circle' => asset('assets/Circle.svg'),
@@ -54,7 +57,21 @@ class RegistrationController extends Controller
         ];
         return Inertia::render('Welcome', [
             'login' => route('sso.redirect'),
-            'user' => auth()->user() ? User::query()->find(auth()->user()->id)->with('section')->first() : auth()->user(),
+            'assets' => $assets,
+        ]);
+    }
+
+    public function register(Request $request)
+    {
+        $assets = [
+            'mascot' => asset('/assets/mascot.png'),
+            'circle' => asset('assets/Circle.svg'),
+            'bycit_logo' => asset('assets/logo.png'),
+            'background' => asset('assets/background.svg')
+        ];
+
+        return Inertia::render('Register', [
+            'user' => auth()->user()->load('section'),
             'colleges' => College::query()->orderBy('name', 'asc')->get(),
             'programs' => Program::query()->orderBy('name', 'asc')->get(),
             'years' => Year::query()->orderBy('name', 'asc')->get(),
