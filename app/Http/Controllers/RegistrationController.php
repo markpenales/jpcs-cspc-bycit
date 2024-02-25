@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\College;
 use App\Models\Program;
 use App\Models\Section;
+use App\Models\Suffix;
 use App\Models\TShirtSize;
 use App\Models\User;
 use App\Models\Year;
@@ -45,7 +46,12 @@ class RegistrationController extends Controller
 
     public function home()
     {
-
+        $assets = [
+            'mascot' => asset('/assets/mascot.png'),
+            'circle' => asset('assets/Circle.svg'),
+            'bycit_logo' => asset('assets/logo.png'),
+            'background' => asset('assets/background.svg')
+        ];
         return Inertia::render('Welcome', [
             'login' => route('sso.redirect'),
             'user' => auth()->user(),
@@ -54,6 +60,8 @@ class RegistrationController extends Controller
             'years' => Year::query()->orderBy('name', 'asc')->get(),
             'sections' => Section::all(),
             'sizes' => TShirtSize::all(),
+            'suffixes' => Suffix::all(),
+            'assets' => $assets
         ]);
     }
 }

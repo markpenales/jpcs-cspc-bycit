@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             YearSeeder::class,
             SectionSeeder::class,
             TShirtSizeSeeder::class,
+            SuffixSeeder::class,
         ]);
     }
 }
