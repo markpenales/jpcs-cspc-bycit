@@ -54,7 +54,7 @@ class RegistrationController extends Controller
         ];
         return Inertia::render('Welcome', [
             'login' => route('sso.redirect'),
-            'user' => auth()->user(),
+            'user' => auth()->user() ? User::query()->find(auth()->user()->id)->with('section')->first() : auth()->user(),
             'colleges' => College::query()->orderBy('name', 'asc')->get(),
             'programs' => Program::query()->orderBy('name', 'asc')->get(),
             'years' => Year::query()->orderBy('name', 'asc')->get(),

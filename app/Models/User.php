@@ -29,6 +29,11 @@ class User extends Authenticatable implements FilamentUser
         'last_name',
         'first_name',
         'middle_initial',
+        'college_id',
+        'section_id',
+        't_shirt_size_id',
+        'nickname',
+        'dietary_restrictions'
     ];
 
     /**
@@ -54,5 +59,9 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(\Filament\Panel $panel): bool
     {
         return $this->hasAnyRole([RoleType::SUPER_ADMIN->value(), RoleType::OFFICER->value()]) || true;
+    }
+
+    public function section(){
+        return $this->belongsTo(Section::class);
     }
 }

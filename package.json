@@ -15,6 +15,11 @@
         "postcss": "^8.4.31",
         "tailwindcss": "^3.2.1",
         "vite": "^5.0.0",
-        "vue": "^3.4.0"
+        "vue": "^3.4.19"
+    },
+    "dependencies": {
+        "ant-design-vue": "^4.0.0-rc.6",
+        "bootstrap": "^5.3.3",
+        "bootstrap-vue": "^2.23.1"
     }
 }

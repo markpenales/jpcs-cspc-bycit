@@ -2,7 +2,7 @@
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import { defineProps, ref, watch, onMounted, onUnmounted } from 'vue';
-
+import { message } from 'ant-design-vue'
 const props = defineProps({
     'login': {
         type: String,
@@ -35,17 +35,17 @@ const props = defineProps({
     }
 })
 
-const lastName = ref(props.user?.last_name ?? null);
-const firstName = ref(props.user?.first_name ?? null);
-const middleInitial = ref(props.user?.middle_initial ?? null);
-const college = ref('');
-const nickname = ref('');
-const program = ref('');
-const year = ref('');
-const section = ref('');
-const tshirt = ref('');
-const suffix = ref('');
-const dietaryRestrictions = ref('');
+const lastName = ref(props.user?.last_name ?? '');
+const firstName = ref(props.user?.first_name ?? '');
+const middleInitial = ref(props.user?.middle_initial ?? '');
+const college = ref(props.user?.college_id ?? '');
+const nickname = ref(props.user?.nickname ?? '');
+const program = ref(props.user?.section.program_id ?? '');
+const year = ref(props.user?.section.year_id ?? '');
+const section = ref(props.user?.section_id ?? '');
+const tshirt = ref(props.user?.t_shirt_size_id ?? '');
+const suffix = ref(props.user?.suffix ?? '');
+const dietaryRestrictions = ref(props.user?.dietary_restrictions ?? '');
 const sectionData = ref([]);
 const errors = ref([])
 const isDesktop = ref(true)
@@ -72,7 +72,8 @@ const submit = async () => {
         tshirt: tshirt.value,
         suffix: suffix.value,
         dietaryRestrictions: dietaryRestrictions.value,
-    }).then(response => console.log(response)).catch(error => errors.value = error.response.data.errors)
+        user: props.user.id
+    }).then(response => message.success(response.data.data.message)).catch(error => { errors.value = error.response.data.errors; message.error("Error: " + error.response.data.message) })
 }
 
 const handleResize = () => {
@@ -81,20 +82,30 @@ const handleResize = () => {
 
 watch([year, program], fetchData, { deep: true });
 watch(college, () => {
-    showProgramAndSection.value = true;
+    if (college.value == 1) {
+        showProgramAndSection.value = true;
+    }
+    else {
+        showProgramAndSection.value = false;
+    }
 })
 
 onMounted(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
+    showProgramAndSection = college.value != ''
+    fetchData()
 });
 
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize);
+    showProgramAndSection = college.value != ''
+    fetchData()
 });
 </script>
 
 <template>
+    {{ user }}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
@@ -105,16 +116,17 @@ onUnmounted(() => {
         <div v-if="user === null" class="d-flex justify-content-center align-items-center row w-100" style="height: 100vh;">
             <div>
                 <div>
-                <div :class="{ 'd-flex': true, 'justify-content-center': true }">
-                    <img :src="assets.bycit_logo" alt="" :width="{ 300: isDesktop, 500: !isDesktop }">
+                    <div :class="{ 'd-flex': true, 'justify-content-center': true }">
+                        <img :src="assets.bycit_logo" alt="" :width="{ 300: isDesktop, 500: !isDesktop }">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <a :href="login" class="btn rounded-pill fw-bold text-white px-4"
+                        style="background-color: #A10075;">Begin Journey</a>
+
                 </div>
             </div>
-            <div class="d-flex justify-content-center align-items-center">
-                <a :href="login" class="btn rounded-pill fw-bold text-white px-4" style="background-color: #A10075;">Begin Journey</a>
 
-            </div>
-            </div>
-           
         </div>
 
         <div v-else class="row">
@@ -213,8 +225,8 @@ onUnmounted(() => {
 
                             </div>
 
-                            <div v-if="showProgramAndSection" class="flex flex-wrap mt-1">
-                                <div>
+                            <div v-if="showProgramAndSection" class="row">
+                                <div class="col-lg-4 mt-1">
                                     <select v-model="program"
                                         :class="{ 'border-danger': errors.program, 'font-small-caps': true, 'form-select': true }">
                                         <option value="" disabled selected>Select Program</option>
@@ -225,7 +237,7 @@ onUnmounted(() => {
                                     <span v-if="errors.program" class="text-danger">{{ errors.program[0] }}</span>
                                 </div>
 
-                                <div>
+                                <div class="col-lg-4 mt-1">
                                     <select v-model="year"
                                         :class="{ 'border-danger': errors.year, 'font-small-caps': true, 'form-select': true }">
                                         <option value="" disabled selected>Select Year</option>
@@ -235,7 +247,7 @@ onUnmounted(() => {
                                     <span v-if="errors.year" class="text-danger">{{ errors.year[0] }}</span>
                                 </div>
 
-                                <div>
+                                <div class="col-lg-4 mt-1">
                                     <select v-model="section"
                                         :class="{ 'border-danger': errors.section, 'font-small-caps': true, 'form-select': true }">
                                         <option value="" disabled selected>Select Section</option>

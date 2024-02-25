@@ -14,4 +14,18 @@ class Section extends Model
         'year_id',
         'section',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function program()
+    {
+        return $this->belongsTo(Program::class);
+    }
+    public function year()
+    {
+        return $this->belongsTo(Year::class);
+    }
 }
