@@ -75,11 +75,18 @@ class SectionSeeder extends Seeder
             $year = $splitSection->last()[0];
             $section = $splitSection->last()[1];
 
-            Section::query()->firstOrCreate([
-                'program_id' => Program::query()->where('code', $program)->first()->id,
-                'year_id' => Year::query()->where('name', $year)->first()->id,
-                'section' => $section,
-            ]);
+            Section::query()->firstOrCreate(
+                [
+                    'program_id' => Program::query()->where('code', $program)->first()->id,
+                    'year_id' => Year::query()->where('name', $year)->first()->id,
+                    'section' => $section,
+                ],
+                [
+                    'program_id' => Program::query()->where('code', $program)->first()->id,
+                    'year_id' => Year::query()->where('name', $year)->first()->id,
+                    'section' => $section,
+                ]
+            );
         }
     }
 }

@@ -18,7 +18,3 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('/sections/{program}/{year}', function ($program, $year) {
-    return response()->json(['data' => Section::query()->where('program_id', $program)->where('year_id', $year)->get()]);
-});

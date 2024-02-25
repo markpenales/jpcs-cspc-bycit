@@ -21,10 +21,13 @@ class ProgramSeeder extends Seeder
         ];
 
         foreach ($programs as $program => $code) {
-            Program::query()->firstOrCreate([
-                'name' => $program,
-                'code' => $code
-            ]);
+            Program::query()->firstOrCreate(
+                ['name' => $program, 'code' => $code],
+                [
+                    'name' => $program,
+                    'code' => $code
+                ]
+            );
         }
     }
 }

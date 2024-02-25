@@ -21,9 +21,12 @@ class YearSeeder extends Seeder
         ];
 
         foreach ($years as $year) {
-            Year::query()->firstOrCreate([
-                'name' => $year
-            ]);
+            Year::query()->firstOrCreate(
+                ['name' => $year],
+                [
+                    'name' => $year
+                ]
+            );
         }
     }
 }

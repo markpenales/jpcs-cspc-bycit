@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\College;
 use App\Models\Program;
 use App\Models\Section;
+use App\Models\TShirtSize;
 use App\Models\User;
 use App\Models\Year;
 use Illuminate\Http\Request;
@@ -52,6 +53,7 @@ class RegistrationController extends Controller
             'programs' => Program::query()->orderBy('name', 'asc')->get(),
             'years' => Year::query()->orderBy('name', 'asc')->get(),
             'sections' => Section::all(),
+            'sizes' => TShirtSize::all(),
         ]);
     }
 }

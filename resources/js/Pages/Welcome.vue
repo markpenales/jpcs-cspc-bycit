@@ -1,8 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
-import { guardReactiveProps } from 'vue';
-import { ref, watch } from 'vue';
+import { defineProps, ref, watch } from 'vue';
 
 const props = defineProps({
     'login': {
@@ -23,30 +22,33 @@ const props = defineProps({
     },
     'sections': {
         required: true
+    },
+    'sizes': {
+        required: true
     }
 })
 
-const lastName = props.user?.last_name ?? null;
-const firstName = props.user?.first_name ?? null;
-const middleInitial = props.user?.middle_initial ?? null;
-const college = '';
+const lastName = ref(props.user?.last_name ?? null);
+const firstName = ref(props.user?.first_name ?? null);
+const middleInitial = ref(props.user?.middle_initial ?? null);
+const college = ref('');
+const nickname = ref('');
 const program = ref('');
 const year = ref('');
-const section = '';
-var sectionData = [];
-
+const section = ref('');
+const tshirt = ref('');
+const dietaryRestrictions = ref('');
+const sectionData = ref([]);
 
 const fetchData = () => {
     if (year.value && program.value) {
-        sectionData = props.sections
+        sectionData.value = props.sections
             .filter(section => section.program_id === program.value && section.year_id === year.value)
             .map(({ id, section }) => ({ id, section }));
-
     }
 };
 
-watch(year, fetchData, {deep: true});
-watch(program, fetchData, {deep: true});
+watch([year, program], fetchData, { deep: true });
 </script>
 
 <template>
@@ -58,10 +60,14 @@ watch(program, fetchData, {deep: true});
 
         <div v-else>
             <form method="post">
-                <input type="text" v-model="lastName">
-                <input type="text" v-model="firstName">
-                <input type="text" v-model="middleInitial">
-
+                <input type="text" v-model="lastName" placeholder="Last Name">
+                <input type="text" v-model="firstName" placeholder="First Name">
+                <input type="text" v-model="middleInitial" placeholder="Middle Initial">
+                <input type="text" v-model="nickname" placeholder="Nickname">
+                <select v-model="tshirt">
+                    <option value="" disabled selected>Select T-Shirt Size</option>
+                    <option v-for="size in sizes" :value="size.id">{{ size.name }}</option>
+                </select>
                 <select v-model="college">
                     <option value="" disabled selected>Select College</option>
                     <option v-for="college in colleges" :value="college.id">{{ college.name }}</option>
@@ -78,11 +84,12 @@ watch(program, fetchData, {deep: true});
                 </select>
 
                 <select v-model="section">
-                    <option value="" disabled selected>Select Program and Year first</option>
+                    <option value="" disabled selected>Select Section</option>
                     <option v-for="s in sectionData" :value="s.id">{{ s.section }}</option>
                 </select>
 
-                {{ sectionData }}
+                <textarea v-model="dietaryRestrictions" cols="30" rows="10" placeholder="Dietary Restrictions"></textarea>
+
             </form>
         </div>
     </div>
