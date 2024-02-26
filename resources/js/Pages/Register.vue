@@ -1,9 +1,8 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
+import { message } from 'ant-design-vue';
 import axios from 'axios';
-import { defineProps, ref, watch, onMounted, onUnmounted } from 'vue';
-import { message } from 'ant-design-vue'
-import { router } from '@inertiajs/vue3';
+import { defineProps, onMounted, onUnmounted, ref, watch } from 'vue';
 const props = defineProps({
     'user': {
         required: false,
@@ -95,7 +94,7 @@ watch(college, () => {
 })
 
 onMounted(() => {
-    console.log({...props.user})
+    console.log({ ...props.user })
     handleResize();
     window.addEventListener('resize', handleResize);
     showProgramAndSection.value = college.value != ''
@@ -117,7 +116,7 @@ onUnmounted(() => {
 
     <div :style='{ "background-image": "url(" + assets.background + ")", "min-height": "100vh", "min-width": "100vw", "background-size": "cover" }'
         class="font-small-caps">
-        
+
         <div class="row">
             <div class="col-lg-4 d-flex justify-content-center align-items-center mt-5 pt-5" id="mascot" v-if="isDesktop">
                 <img :src="assets.mascot" alt="BYCIT Mascot" width="300">
@@ -276,8 +275,9 @@ onUnmounted(() => {
 
 <style>
 .font-small-caps {
-    font-variant: small-caps;
-    text-transform: lowercase;
+    font-variant: small-caps !important;
+    text-transform: lowercase !important;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 #mascot {
@@ -300,7 +300,19 @@ body {
     text-align: center;
 }
 
+select {
+    font-family: 'Montserrat', sans-serif;
+    text-transform: lowercase;
+}
+
+option {
+    font-family: 'Montserrat', sans-serif;
+    text-transform: capitalize;
+}
+
 ::placeholder {
+    font-family: 'Montserrat', sans-serif;
+    text-transform: lowercase;
     text-align: center;
 }
 </style>
