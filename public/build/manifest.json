@@ -1,17 +1,17 @@
 {
   "resources/js/Pages/Register.vue": {
-    "file": "assets/Register-BKodjpV6.js",
+    "file": "assets/Register-Cprzey2y.js",
     "src": "resources/js/Pages/Register.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js"
     ],
     "css": [
-      "assets/Register-DTpLiX5n.css"
+      "assets/Register-CbYjagvP.css"
     ]
   },
   "resources/js/Pages/Welcome.vue": {
-    "file": "assets/Welcome-D32DeyDv.js",
+    "file": "assets/Welcome-DdocwxhB.js",
     "src": "resources/js/Pages/Welcome.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -22,7 +22,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-CG1Orm_z.js",
+    "file": "assets/app-njsnZvYf.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
