@@ -384,7 +384,7 @@ onUnmounted(() => {
 <style>
 .font-small-caps {
     font-variant: small-caps !important;
-    text-transform: lowercase !important;
+    text-transform: capitalize !important;
     font-family: 'Montserrat', sans-serif !important;
 }
 
@@ -420,7 +420,7 @@ option {
 
 ::placeholder {
     font-family: 'Montserrat', sans-serif;
-    text-transform: lowercase;
+    text-transform: capitalize;
     text-align: center;
 }
 </style>
