@@ -141,22 +141,20 @@ onUnmounted(() => {
         class="font-small-caps">
 
         <div class="row">
-            <div class="col-lg-4 d-flex justify-content-center align-items-center mt-5 pt-5" id="mascot" v-if="isDesktop">
-                <img :src="assets.mascot" alt="BYCIT Mascot" width="300">
-            </div>
-            <div class="col-lg-8 mb-5">
+
+            <div class="col-lg-10 mx-auto mb-5">
                 <div>
                     <div
                         :class="{ 'd-flex': true, 'justify-content-end': isDesktop, 'mt-5': true, 'justify-content-center': !isDesktop }">
                         <img :src="assets.bycit_logo" alt="" :width="{ 300: isDesktop, 500: !isDesktop }">
                     </div>
-                    <div class="justify-content-start text-white fw-bold fst-italic fs-3 ms-5">
+                    <div class="justify-content-start text-white fw-bold fst-italic fs-3 ms-3">
                         <span>
                             Registration
                         </span>
                     </div>
 
-                    <div class="row bg-white p-3 ms-5 me-5 border-0 rounded" id="form">
+                    <div class="row bg-white p-3 mx-3 border-0 rounded" id="form">
 
                         <form>
 
@@ -304,50 +302,73 @@ onUnmounted(() => {
                                 :cancel-button-props="{ class: { 'btn btn-outline-danger d-inline-flex align-items-center': true } }"
                                 :ok-button-props="{ class: { 'btn btn-outline-success d-inline-flex align-items-center': true }, disabled: submitted }">
                                 <div class="row">
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center">
-                                        <p>Full Name:</p>
-                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">{{ getFullName()
-                                        }}</p>
-                                    </span>
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center">
-                                        <p>Nickname:</p>
-                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">{{ nickname }}
-                                        </p>
-                                    </span>
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center">
-                                        <p>T-Shirt Size:</p>
-                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">{{ sizes[tshirt -
-                                            1].name
-                                        }}</p>
-                                    </span>
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center">
-                                        <p>School:</p>
-                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">
-                                            {{ colleges.find(school =>
-                                                school.id ==
-                                                college).name
-                                            }}
-                                        </p>
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
+                                        <label class="col-4">Full Name</label>
+                                        <div class="col-6">
+                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">{{
+                                                getFullName()
+                                            }}</p>
+                                        </div>
 
                                     </span>
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center"
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
+                                        <label class="col-4">Nickname</label>
+                                        <div class="col-6">
+                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">{{
+                                                nickname }}
+                                            </p>
+                                        </div>
+
+                                    </span>
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
+                                        <label class="col-4">T-Shirt Size</label>
+                                        <div class="col-6">
+                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">{{
+                                                sizes[tshirt -
+                                                    1].name
+                                            }}</p>
+                                        </div>
+
+                                    </span>
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
+                                        <label class="col-4">School</label>
+                                        <div class="col-6">
+                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
+                                                {{ colleges.find(school =>
+                                                    school.id ==
+                                                    college).name
+                                                }}
+                                            </p>
+                                        </div>
+
+
+                                    </span>
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row"
                                         v-if="college == 1">
-                                        Program and Section:
-                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">
-                                            {{ programs.find(prog =>
-                                                prog.id == program).code }} -
-                                            {{ years.find(yr => yr.id == year).name }}{{ sections.find(sec => sec.id ==
-                                                section).section }}
-                                        </p>
+                                        <label class="col-4">
+                                            Program and Section
+                                        </label>
+                                        <div class="col-6">
+                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
+                                                {{ programs.find(prog =>
+                                                    prog.id == program).code }} -
+                                                {{ years.find(yr => yr.id == year).name }}{{ sections.find(sec => sec.id ==
+                                                    section).section }}
+                                            </p>
+                                        </div>
+
 
                                     </span>
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center">
-                                        <p>Dietary Restriction:</p>
-                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">
-                                            {{
-                                                dietaryRestrictions
-                                            }}
-                                        </p>
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
+                                        <label class="col-4">Dietary Restriction</label>
+                                        <div class="col-6">
+                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
+                                                {{
+                                                    dietaryRestrictions
+                                                }}
+                                            </p>
+                                        </div>
+
 
                                     </span>
                                 </div>
@@ -389,7 +410,7 @@ body {
 
 select {
     font-family: 'Montserrat', sans-serif;
-    text-transform: lowercase;
+    text-transform: capitalize;
 }
 
 option {

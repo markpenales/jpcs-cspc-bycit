@@ -52,7 +52,7 @@ class RegistrationController extends Controller
         $assets = [
             'mascot' => asset('/assets/mascot.png'),
             'circle' => asset('assets/Circle.svg'),
-            'bycit_logo' => asset('assets/logo.png'),
+            'bycit_logo' => asset('assets/BYCIT logo_combo-full-color.svg'),
             'background' => asset('assets/background.svg')
         ];
         return Inertia::render('Welcome', [

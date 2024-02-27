@@ -36,7 +36,7 @@ onMounted(() => {
             <div>
                 <div>
                     <div :class="{ 'd-flex': true, 'justify-content-center': true }">
-                        <img :src="assets.bycit_logo" alt="" :width="{ 300: isDesktop, 500: !isDesktop }">
+                        <img :src="assets.bycit_logo" width="600">
                     </div>
                 </div>
                 <div class="d-flex justify-content-center align-items-center">
