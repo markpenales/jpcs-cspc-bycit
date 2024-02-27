@@ -292,7 +292,7 @@ onUnmounted(() => {
                         <div>
                             <Modal v-model:open="tShirtGuideVisibility" @ok="handleShirtModalOkay" ok-text="Okay"
                                 ok-type="primary" :cancel-button-props="{ style: { display: 'none' } }"
-                                :ok-button-props="{ style: { display: 'none' } }">
+                                :ok-button-props="{ style: { display: 'none' } }" width="800px">
                                 <img :src="assets.shirt_guide" alt="" class="border-0 rounded">
                             </Modal>
                         </div>
@@ -366,8 +366,6 @@ onUnmounted(() => {
                                                 }}
                                             </p>
                                         </div>
-
-
                                     </span>
                                 </div>
                             </Modal>
@@ -381,14 +379,8 @@ onUnmounted(() => {
 
 <style>
 .font-small-caps {
-    font-variant: small-caps !important;
     text-transform: capitalize !important;
     font-family: 'Montserrat', sans-serif !important;
-}
-
-#mascot {
-    transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
 }
 
 body {
