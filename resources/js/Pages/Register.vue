@@ -273,7 +273,7 @@ onUnmounted(() => {
 
 
                             <div class="mt-1">
-                                <textarea v-model="dietaryRestrictions" cols="30" rows="10"
+                                <textarea v-model="dietaryRestrictions" cols="30" rows="7"
                                     placeholder="Dietary Restrictions"
                                     :class="{ 'border-danger': errors.dietaryRestrictions, 'font-small-caps': true, 'form-control': true }"></textarea>
                                 <span v-if="errors.dietaryRestrictions" class="text-danger">{{ errors.dietaryRestrictions[0]
@@ -323,10 +323,8 @@ onUnmounted(() => {
                                     <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
                                         <label class="col-4">T-Shirt Size</label>
                                         <div class="col-6">
-                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">{{
-                                                sizes[tshirt -
-                                                    1].name
-                                            }}</p>
+                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
+                                                {{ sizes.find(siz => siz.id == tshirt) }}</p>
                                         </div>
 
                                     </span>

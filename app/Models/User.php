@@ -61,11 +61,18 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasAnyRole([RoleType::SUPER_ADMIN->value(), RoleType::OFFICER->value()]);
     }
 
-    public function section(){
+    public function section()
+    {
         return $this->belongsTo(Section::class);
     }
 
-    public function college(){
+    public function college()
+    {
         return $this->belongsTo(College::class);
+    }
+
+    public function shirt()
+    {
+        return $this->belongsTo(TShirtSize::class);
     }
 }
