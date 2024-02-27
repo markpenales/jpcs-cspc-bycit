@@ -39,10 +39,9 @@ onMounted(() => {
                         <img :src="assets.bycit_logo" width="600">
                     </div>
                 </div>
-                <div class="d-flex justify-content-center align-items-center">
-                    <a :href="login" class="btn rounded-pill fw-bold text-white px-4"
-                        style="background-color: #A10075;">Begin
-                        Journey</a>
+                <div class="d-flex justify-content-center align-items-center ">
+                    <a :href="login" class="btn rounded-pill text-white px-5 py-1 fs-4"
+                        style="background-color: #A10075;">Registration</a>
                 </div>
             </div>
         </div>
@@ -51,7 +50,6 @@ onMounted(() => {
 
 <style>
 .font-small-caps {
-    font-variant: small-caps;
-    text-transform: lowercase;
+    font-family: 'Montserrat', sans-serif;
 }
 </style>
