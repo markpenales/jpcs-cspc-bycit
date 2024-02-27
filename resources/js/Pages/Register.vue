@@ -1,9 +1,10 @@
 <script setup>
 import { Head, router } from '@inertiajs/vue3';
-import { message } from 'ant-design-vue';
+import { Button, Modal, message } from 'ant-design-vue';
 import axios from 'axios';
 import { defineProps, onMounted, onUnmounted, ref, watch } from 'vue';
 const props = defineProps({
+
     'user': {
         required: false,
     },
@@ -46,6 +47,22 @@ const sectionData = ref([]);
 const errors = ref([])
 const isDesktop = ref(true)
 const showProgramAndSection = ref(false);
+const submitted = ref(false);
+const isHovered = ref(false);
+const tShirtGuideVisibility = ref(false);
+const checkInfo = ref(false);
+
+const showTShirtModal = () => {
+    tShirtGuideVisibility.value = true;
+};
+
+const handleShirtModalOkay = () => {
+    tShirtGuideVisibility.value = false;
+};
+
+const handleShirtModalCancel = () => {
+    tShirtGuideVisibility.value = false;
+};
 
 const fetchData = () => {
     if (year.value && program.value) {
@@ -56,6 +73,8 @@ const fetchData = () => {
 };
 
 const submit = async () => {
+    submitted.value = true;
+    checkInfo.value = false;
     await axios.post('/api/register', {
         lastName: lastName.value,
         firstName: firstName.value,
@@ -76,12 +95,17 @@ const submit = async () => {
     }).catch(error => {
         errors.value = error.response.data.errors;
         message.error("Error: " + error.response.data.message)
+        submitted.value = false
     })
 }
 
 const handleResize = () => {
     isDesktop.value = window.innerWidth >= 992;
 };
+
+const getFullName = () => {
+    return lastName.value + (suffix.value ? ' ' + suffixes.find(suf => suf.id == suffix).name : '') + ', ' + (firstName.value) + (' ' + middleInitial.value + '.')
+}
 
 watch([year, program], fetchData, { deep: true });
 watch(college, () => {
@@ -94,7 +118,6 @@ watch(college, () => {
 })
 
 onMounted(() => {
-    console.log({ ...props.user })
     handleResize();
     window.addEventListener('resize', handleResize);
     showProgramAndSection.value = college.value != ''
@@ -121,7 +144,7 @@ onUnmounted(() => {
             <div class="col-lg-4 d-flex justify-content-center align-items-center mt-5 pt-5" id="mascot" v-if="isDesktop">
                 <img :src="assets.mascot" alt="BYCIT Mascot" width="300">
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-8 mb-5">
                 <div>
                     <div
                         :class="{ 'd-flex': true, 'justify-content-end': isDesktop, 'mt-5': true, 'justify-content-center': !isDesktop }">
@@ -129,19 +152,12 @@ onUnmounted(() => {
                     </div>
                     <div class="justify-content-start text-white fw-bold fst-italic fs-3 ms-5">
                         <span>
-                            12th BYCIT Registration
+                            Registration
                         </span>
                     </div>
 
                     <div class="row bg-white p-3 ms-5 me-5 border-0 rounded" id="form">
-                        <div class="d-flex fw-bold">
-                            <div>
-                                <img :src=assets.circle alt="" width="50">
-                            </div>
-                            <span style="color: #C41696" class="fs-4 fst-italic">
-                                Register
-                            </span>
-                        </div>
+
                         <form>
 
                             <div class="row mt-1">
@@ -189,13 +205,24 @@ onUnmounted(() => {
 
                                 </div>
 
-
                                 <div class="col-lg-6 mt-1">
-                                    <select v-model="tshirt"
-                                        :class="{ 'border-danger': errors.tshirt, 'font-small-caps': true, 'form-select': true }">
-                                        <option value="" disabled selected>Select T-Shirt Size</option>
-                                        <option v-for="size in sizes" :value="size.id">{{ size.name }}</option>
-                                    </select>
+                                    <div class="d-flex gap-1 align-items-center">
+                                        <select v-model="tshirt"
+                                            :class="{ 'border-danger': errors.tshirt, 'font-small-caps': true, 'form-select': true }">
+                                            <option value="" disabled selected>Select T-Shirt Size</option>
+                                            <option v-for="size in sizes" :value="size.id">{{ size.name }}</option>
+                                        </select>
+
+                                        <div @click="tShirtGuideVisibility = !tShirtGuideVisibility">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" width="30" class="" role="button">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+
+
                                     <span v-if="errors.tshirt" class="text-danger">{{ errors.tshirt[0] }}</span>
 
                                 </div>
@@ -259,16 +286,76 @@ onUnmounted(() => {
 
                             <div>
                                 <button type="button" class="btn text-white w-100 fw-bold mt-1"
-                                    style="background-color: #A10075;" @click="submit">Confirm</button>
+                                    style="background-color: #A10075;" @click="checkInfo = true"
+                                    :disabled="submitted">Confirm</button>
                             </div>
+
                         </form>
+                        <div>
+                            <Modal v-model:open="tShirtGuideVisibility" @ok="handleShirtModalOkay" ok-text="Okay"
+                                ok-type="primary" :cancel-button-props="{ style: { display: 'none' } }"
+                                :ok-button-props="{ style: { display: 'none' } }">
+                                <img :src="assets.shirt_guide" alt="" class="border-0 rounded">
+                            </Modal>
+                        </div>
+                        <div>
+                            <Modal v-model:open="checkInfo" @ok="submit" title="Please check your information."
+                                ok-text="Confirm" ok-type="primary"
+                                :cancel-button-props="{ class: { 'btn btn-outline-danger d-inline-flex align-items-center': true } }"
+                                :ok-button-props="{ class: { 'btn btn-outline-success d-inline-flex align-items-center': true }, disabled: submitted }">
+                                <div class="row">
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center">
+                                        <p>Full Name:</p>
+                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">{{ getFullName()
+                                        }}</p>
+                                    </span>
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center">
+                                        <p>Nickname:</p>
+                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">{{ nickname }}
+                                        </p>
+                                    </span>
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center">
+                                        <p>T-Shirt Size:</p>
+                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">{{ sizes[tshirt -
+                                            1].name
+                                        }}</p>
+                                    </span>
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center">
+                                        <p>School:</p>
+                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">
+                                            {{ colleges.find(school =>
+                                                school.id ==
+                                                college).name
+                                            }}
+                                        </p>
+
+                                    </span>
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center"
+                                        v-if="college == 1">
+                                        Program and Section:
+                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">
+                                            {{ programs.find(prog =>
+                                                prog.id == program).code }} -
+                                            {{ years.find(yr => yr.id == year).name }}{{ sections.find(sec => sec.id ==
+                                                section).section }}
+                                        </p>
+
+                                    </span>
+                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center">
+                                        <p>Dietary Restriction:</p>
+                                        <p class="rounded px-3 py-1" style="border: 2px solid purple">
+                                            {{
+                                                dietaryRestrictions
+                                            }}
+                                        </p>
+
+                                    </span>
+                                </div>
+                            </Modal>
+                        </div>
                     </div>
-
                 </div>
-
             </div>
-
-
         </div>
     </div>
 </template>

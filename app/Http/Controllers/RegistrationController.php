@@ -46,7 +46,7 @@ class RegistrationController extends Controller
 
     public function home()
     {
-        if(auth()->user()){
+        if (auth()->user()) {
             return redirect()->route('register');
         }
         $assets = [
@@ -67,7 +67,8 @@ class RegistrationController extends Controller
             'mascot' => asset('/assets/mascot.png'),
             'circle' => asset('assets/Circle.svg'),
             'bycit_logo' => asset('assets/logo.png'),
-            'background' => asset('assets/background.svg')
+            'background' => asset('assets/background.svg'),
+            'shirt_guide' => asset('assets/shirt1.png'),
         ];
 
         return Inertia::render('Register', [
