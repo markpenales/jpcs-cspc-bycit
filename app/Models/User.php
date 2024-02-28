@@ -33,7 +33,6 @@ class User extends Authenticatable implements FilamentUser
         'section_id',
         't_shirt_size_id',
         'nickname',
-        'dietary_restrictions'
     ];
 
     /**
@@ -74,5 +73,15 @@ class User extends Authenticatable implements FilamentUser
     public function shirt()
     {
         return $this->belongsTo(TShirtSize::class);
+    }
+
+    public function restrictions()
+    {
+        return $this->hasMany(DietaryRestriction::class);
+    }
+
+    public function registration()
+    {
+        return $this->hasOne(Registration::class);
     }
 }

@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             TShirtSizeSeeder::class,
             SuffixSeeder::class,
             RoleSeeder::class,
+            RestrictionsSeeder::class,
         ]);
     }
 }

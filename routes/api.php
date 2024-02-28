@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\DietaryRestriction;
+use App\Models\Registration;
+use App\Models\Restriction;
 use App\Models\Section;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,10 +36,11 @@ Route::post('/register', function (Request $request) {
         'year' => ['nullable', 'exists:years,id'],
         'section' => ['nullable', 'exists:sections,id'],
         'tshirt' => ['exists:t_shirt_sizes,id'],
-        'dietaryRestrictions' => ['nullable', 'max:255', 'min:3'],
-        'user' => 'required'
+        'user' => 'required',
+        'confirm' => 'accepted',
+        'restrictions.3.allergy' => ['required_if:restrictions.3.checked,true', 'max:255', 'min:3'],
     ]);
-    
+
     // Check if the college value is equal to 1
     if ($attributes['college'] == 1) {
         // Add additional validation rules for program, year, and section
@@ -45,7 +49,7 @@ Route::post('/register', function (Request $request) {
             'year' => 'required|exists:years,id',
             'section' => 'required|exists:sections,id',
         ];
-    
+
         // Merge additional rules with the existing rules
         $attributes = array_merge($attributes, $request->validate($additionalRules));
     }
@@ -61,7 +65,6 @@ Route::post('/register', function (Request $request) {
     $year = Str::of($attributes['year'])->trim()->replaceMatches('/\s+/', ' ')->ucfirst()->toString();
     $section = Str::of($attributes['section'])->trim()->replaceMatches('/\s+/', ' ')->ucfirst()->toString();
     $tshirt = Str::of($attributes['tshirt'])->trim()->replaceMatches('/\s+/', ' ')->ucfirst()->toString();
-    $dietaryRestrictions = Str::of($attributes['dietaryRestrictions'])->trim()->replaceMatches('/\s+/', ' ')->ucfirst()->toString();
 
     $user = User::find($attributes['user']);
 
@@ -74,10 +77,28 @@ Route::post('/register', function (Request $request) {
     $user->nickname = !empty($nickname) ? $nickname : null;
     $user->section_id = !empty($section) ? $section : null;
     $user->t_shirt_size_id = !empty($tshirt) ? $tshirt : null;
-    $user->dietary_restrictions = !empty($dietaryRestrictions) ? $dietaryRestrictions : null;
 
 
     $user->save();
 
-    return response()->json(["data" => ["message" => "User Updated Successfully"]]);
-});
+    $dietaryRestrictions = $request->restrictions;
+
+    $dietaryRestrictionsCollection = collect($dietaryRestrictions); // Convert to collection
+
+    $dietaryRestrictionsCollection->each(function ($restriction) use ($user) {
+        if (isset($restriction['checked'])) {
+
+            $user->restrictions()->firstOrCreate([
+                'restriction_id' => Restriction::query()->where('name', $restriction['name'])->first()->id,
+                'allergies' => $restriction['allergy'] ?? '',
+            ]);
+        }
+    });
+
+    Registration::query()->firstOrCreate([
+        'user_id' => $user->id,
+
+    ]);
+
+    return response()->json(["data" => ["message" => "Registered Successfully!"]]);
+})->middleware('throttle:6,1');

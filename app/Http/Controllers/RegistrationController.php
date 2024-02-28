@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\College;
 use App\Models\Program;
+use App\Models\Restriction;
 use App\Models\Section;
 use App\Models\Suffix;
 use App\Models\TShirtSize;
@@ -72,13 +73,14 @@ class RegistrationController extends Controller
         ];
 
         return Inertia::render('Register', [
-            'user' => auth()->user()->load('section'),
+            'user' => auth()->user()->load(['section', 'registration']),
             'colleges' => College::query()->orderBy('name', 'asc')->get(),
             'programs' => Program::query()->orderBy('name', 'asc')->get(),
             'years' => Year::query()->orderBy('name', 'asc')->get(),
             'sections' => Section::all(),
             'sizes' => TShirtSize::all(),
             'suffixes' => Suffix::all(),
+            'restrictions' => Restriction::all(),
             'assets' => $assets,
         ]);
     }

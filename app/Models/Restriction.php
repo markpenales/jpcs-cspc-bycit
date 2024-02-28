@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Registration extends Model
+class Restriction extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-    ];
 
-    public function user()
+    public function dietaryRestriction()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(DietaryRestriction::class);
     }
 }
-

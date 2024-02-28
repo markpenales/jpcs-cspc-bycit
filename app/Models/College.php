@@ -13,7 +13,8 @@ class College extends Model
         'name'
     ];
 
-    public function users(){
-        return $this->belongsToMany(User::class);
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 }

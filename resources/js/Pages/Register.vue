@@ -4,7 +4,6 @@ import { Button, Modal, message } from 'ant-design-vue';
 import axios from 'axios';
 import { defineProps, onMounted, onUnmounted, ref, watch } from 'vue';
 const props = defineProps({
-
     'user': {
         required: false,
     },
@@ -29,6 +28,10 @@ const props = defineProps({
     'assets': {
         type: Object,
         required: true
+    },
+    'restrictions': {
+        type: Object,
+        required: true
     }
 })
 
@@ -51,6 +54,8 @@ const submitted = ref(false);
 const isHovered = ref(false);
 const tShirtGuideVisibility = ref(false);
 const checkInfo = ref(false);
+const confirm = ref(false);
+const isRegistered = ref(!!(props.user?.registration) ?? false)
 
 const showTShirtModal = () => {
     tShirtGuideVisibility.value = true;
@@ -72,6 +77,16 @@ const fetchData = () => {
     }
 };
 
+const find = (object, value, returnKey = "name") => {
+    try {
+        return object.find(obj => obj.id == value)[returnKey]
+    }
+
+    catch {
+        return ''
+    }
+}
+
 const submit = async () => {
     submitted.value = true;
     checkInfo.value = false;
@@ -87,7 +102,9 @@ const submit = async () => {
         tshirt: tshirt.value,
         suffix: suffix.value,
         dietaryRestrictions: dietaryRestrictions.value,
-        user: props.user.id
+        user: props.user.id,
+        confirm: confirm.value,
+        restrictions: props.restrictions,
     }).then(response => {
         message.success(response.data.data.message + "\nYou will be logged out in 5 seconds", 5, () => {
             router.post('/logout');
@@ -97,6 +114,10 @@ const submit = async () => {
         message.error("Error: " + error.response.data.message)
         submitted.value = false
     })
+}
+
+const logout = () => {
+    router.post('/logout')
 }
 
 const handleResize = () => {
@@ -120,13 +141,13 @@ watch(college, () => {
 onMounted(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
-    showProgramAndSection.value = college.value != ''
+    showProgramAndSection.value = college.value == 1
     fetchData()
 });
 
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize);
-    showProgramAndSection.value = college.value != ''
+    showProgramAndSection.value = college.value == 1
     fetchData()
 });
 </script>
@@ -137,12 +158,20 @@ onUnmounted(() => {
 
     <Head title="Begin Your Journey" />
 
+    <Modal v-model:open="isRegistered" :after-close="logout" title="This email is already registered" ok-text="Okay"
+        ok-type="primary" cancel-text="Close" :ok-button-props="{ style: { display: 'none' } }" width="800px">
+        This email is already associated with a registration. If you need to edit your registration, please send your
+        concern to the
+        <a href="https://www.facebook.com/jpcscspc">JPCS Facebook Page</a>.
+    </Modal>
+
+
     <div :style='{ "background-image": "url(" + assets.background + ")", "min-height": "100vh", "min-width": "100vw", "background-size": "cover" }'
         class="font-small-caps">
 
         <div class="row">
 
-            <div class="col-lg-10 mx-auto mb-5">
+            <div class="col-lg-8 mx-auto mb-5">
                 <div>
                     <div
                         :class="{ 'd-flex': true, 'justify-content-end': isDesktop, 'mt-5': true, 'justify-content-center': !isDesktop }">
@@ -187,7 +216,7 @@ onUnmounted(() => {
                                 <div class="col-lg-3 mt-1">
                                     <select v-model="suffix"
                                         :class="{ 'border-danger': errors.suffix, 'font-small-caps': true, 'form-select': true }">
-                                        <option value="" disabled selected>Suffix (Optional)</option>
+                                        <option value="" selected>Suffix (Optional)</option>
                                         <option v-for="suf in suffixes" :value="suf.id">{{ suf.name }}</option>
                                     </select>
                                     <span v-if="errors.suffix" class="text-danger">{{ errors.suffix[0] }}</span>
@@ -272,18 +301,50 @@ onUnmounted(() => {
                             </div>
 
 
-                            <div class="mt-1">
-                                <textarea v-model="dietaryRestrictions" cols="30" rows="7"
-                                    placeholder="Dietary Restrictions"
-                                    :class="{ 'border-danger': errors.dietaryRestrictions, 'font-small-caps': true, 'form-control': true }"></textarea>
-                                <span v-if="errors.dietaryRestrictions" class="text-danger">{{ errors.dietaryRestrictions[0]
-                                }}
-                                    Restriction</span>
+                            <div class="mt-1 d-flex justify-content-center">
+                                <div style="border: 1px solid #A10075;" class="px-1">
+                                    <div class="text-center">Dietary Restrictions (Optional)</div>
+                                    <div class="row">
+                                        <div v-for="(res, index) in restrictions" :key="index" class="col-md-6">
+                                            <div class="d-flex gap-3">
+                                                <input type="checkbox" class="form-check-input" :id="res.name"
+                                                    v-model="res.checked">
+                                                <label :for="res.name">{{ res.name }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
 
                             </div>
 
-                            <div>
-                                <button type="button" class="btn text-white w-100 fw-bold mt-1"
+                            <div class="mt-1">
+
+                                <div v-if="restrictions.some(res => res.name === 'Allergies' && res.checked)" class="row">
+                                    <div class="d-flex gap-1">
+                                        <input type="text" placeholder="Allergies"
+                                            v-model="restrictions.find(res => res.name === 'Allergies').allergy"
+                                            :class="[{ 'col-8 form-control font-small-caps border-0': true, 'border-danger': errors['restrictions.3.allergy'] }]"
+                                            :style="{ 'border-bottom': '1px solid ' + (errors['restrictions.3.allergy'] ? '#' : '#A10075') + ' !important' }">
+
+                                    </div>
+                                    <span v-if="errors['restrictions.3.allergy']" class="text-danger">Please enter your
+                                        allergies</span>
+                                </div>
+
+                            </div>
+                            <div class="mt-1">
+                                <div class="d-flex gap-1">
+                                    <input type="checkbox" class="form-check-input" v-model="confirm" id="confirm">
+                                    <label for="confirm" style="text-transform: none;">
+                                        I confirm that the information I provided is true and correct.
+                                    </label>
+                                </div>
+                                <span v-if="errors.confirm" class="text-danger">{{ errors.confirm[0] }}</span>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center">
+                                <button type="button" class="btn text-white w-50 fw-bold mt-1"
                                     style="background-color: #A10075;" @click="checkInfo = true"
                                     :disabled="submitted">Confirm</button>
                             </div>
@@ -302,8 +363,8 @@ onUnmounted(() => {
                                 :cancel-button-props="{ class: { 'btn btn-outline-danger d-inline-flex align-items-center': true } }"
                                 :ok-button-props="{ class: { 'btn btn-outline-success d-inline-flex align-items-center': true }, disabled: submitted }">
                                 <div class="row">
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
-                                        <label class="col-4">Full Name</label>
+                                    <span class="d-flex col-12 rounded-pill d-flex align-items-center form-group row">
+                                        <label class="col-6">Full Name</label>
                                         <div class="col-6">
                                             <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">{{
                                                 getFullName()
@@ -311,60 +372,69 @@ onUnmounted(() => {
                                         </div>
 
                                     </span>
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
-                                        <label class="col-4">Nickname</label>
+                                    <span class="d-flex col-12 rounded-pill d-flex align-items-center form-group row">
+                                        <label class="col-6">Nickname</label>
                                         <div class="col-6">
-                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">{{
-                                                nickname }}
+                                            <div class="d-flex justify-content-center text-danger">This will appear on your
+                                                ID!</div>
+
+                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
+                                                {{ nickname }}
+                                                <span v-if="!nickname" class="text-danger">*This field is required*</span>
+                                            </p>
+
+                                        </div>
+
+                                    </span>
+                                    <span class="d-flex col-12 rounded-pill d-flex align-items-center form-group row">
+                                        <label class="col-6">T-Shirt Size</label>
+                                        <div class="col-6">
+                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
+                                                {{ find(sizes, tshirt) }}
+                                                <span v-if="!tshirt" class="text-danger">*This field is required*</span>
                                             </p>
                                         </div>
 
                                     </span>
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
-                                        <label class="col-4">T-Shirt Size</label>
+                                    <span class="d-flex col-12 rounded-pill d-flex align-items-center form-group row">
+                                        <label class="col-6">School</label>
                                         <div class="col-6">
                                             <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
-                                                {{ sizes.find(siz => siz.id == tshirt) }}</p>
-                                        </div>
-
-                                    </span>
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
-                                        <label class="col-4">School</label>
-                                        <div class="col-6">
-                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
-                                                {{ colleges.find(school =>
-                                                    school.id ==
-                                                    college).name
-                                                }}
+                                                {{ find(colleges, college) }}
+                                                <span v-if="!college" class="text-danger">*This field is required*</span>
                                             </p>
                                         </div>
 
 
                                     </span>
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row"
+                                    <span class="d-flex col-12 rounded-pill d-flex align-items-center form-group row"
                                         v-if="college == 1">
-                                        <label class="col-4">
-                                            Program and Section
+                                        <label class="col-6">
+                                            Program and 4ection
                                         </label>
                                         <div class="col-6">
                                             <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
-                                                {{ programs.find(prog =>
-                                                    prog.id == program).code }} -
-                                                {{ years.find(yr => yr.id == year).name }}{{ sections.find(sec => sec.id ==
-                                                    section).section }}
+                                                {{ find(programs, program, code) }} -
+                                                {{ find(years, year) }}{{ find(sections, section, section) }}
+                                                <span v-if="!section" class="text-danger">*This field is required*</span>
+
                                             </p>
                                         </div>
 
 
                                     </span>
-                                    <span class="d-flex gap-1 col-12 rounded-pill d-flex align-items-center form-group row">
-                                        <label class="col-4">Dietary Restriction</label>
+                                    <span class="d-flex col-12 rounded-pill d-flex align-items-center form-group row">
+                                        <label class="col-6">Dietary Restrictions</label>
                                         <div class="col-6">
                                             <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
-                                                {{
-                                                    dietaryRestrictions
-                                                }}
+                                            <div
+                                                v-for="restrict in restrictions.filter(res => res.checked === true).map(res => [res.name, res.allergy])">
+                                                {{ restrict[0] }}{{ restrict[1] ? ': ' + restrict[1] : '' }}
+                                            </div>
+
+                                            <span v-if="!dietaryRestrictions" class="text-danger"></span>
                                             </p>
+
                                         </div>
                                     </span>
                                 </div>
