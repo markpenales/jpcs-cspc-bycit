@@ -37,7 +37,7 @@ class RegistrationResource extends Resource
             ->columns([
                 TextColumn::make('user.email'),
                 TextColumn::make('user.college.name'),
-                TextColumn::make('user.section.program'),
+                TextColumn::make('user.section.program.code')->label('Program'),
                 TextColumn::make('user.section.year.name'),
                 TextColumn::make('user.section.section'),
                 TextColumn::make('created_at')
