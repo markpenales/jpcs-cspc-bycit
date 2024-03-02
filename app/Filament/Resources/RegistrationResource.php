@@ -43,7 +43,7 @@ class RegistrationResource extends Resource
                 TextColumn::make('created_at')
             ])
             ->filters([
-                SelectFilter::make('user.college.name')->relationship('user.college', 'name'),
+                SelectFilter::make('college')->relationship('user.college', 'name')->label('School'),
                 SelectFilter::make('program')->relationship('user.section.program', 'code'),
                 SelectFilter::make('year')->relationship('user.section.year', 'name'),
                 // TODO:
