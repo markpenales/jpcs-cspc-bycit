@@ -35,11 +35,11 @@ class RegistrationResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.email'),
-                TextColumn::make('user.college.name'),
-                TextColumn::make('user.section.program.code')->label('Program'),
-                TextColumn::make('user.section.year.name'),
-                TextColumn::make('user.section.section'),
+                TextColumn::make('user.email')->searchable(),
+                TextColumn::make('user.college.name')->searchable(),
+                TextColumn::make('user.section.program.code')->label('Program')->searchable(),
+                TextColumn::make('user.section.year.name')->searchable(),
+                TextColumn::make('user.section.section')->searchable(),
                 TextColumn::make('created_at')
             ])
             ->filters([
