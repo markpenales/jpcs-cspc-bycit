@@ -40,6 +40,7 @@ class RegistrationResource extends Resource
                 TextColumn::make('user.section.program.code')->label('Program')->searchable(),
                 TextColumn::make('user.section.year.name')->searchable(),
                 TextColumn::make('user.section.section')->searchable(),
+                TextColumn::make('user.nickname')->searchable(),
                 TextColumn::make('created_at')
             ])
             ->filters([
