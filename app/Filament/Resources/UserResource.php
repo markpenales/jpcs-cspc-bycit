@@ -33,7 +33,7 @@ class UserResource extends Resource
                 TextInput::make('middle_initial'),
                 Select::make('college')->relationship('college', 'name'),
                 Select::make('section')->relationship('section', 'section'),
-                Select::make('t_shirt_size')->relationship('shirt', 'name'),
+                Select::make('t_shirt_size')->relationship('shirt', 'name'), // TODO: Error
                 TextInput::make('nickname'),
                 TextInput::make('dietary_restrictions'),
 
