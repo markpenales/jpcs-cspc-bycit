@@ -4,10 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\RegistrationResource\Pages;
 use App\Filament\Resources\RegistrationResource\RelationManagers;
+use App\Filament\Resources\RegistrationResource\RelationManagers\UserRelationManager;
 use App\Models\Program;
 use App\Models\Registration;
 use App\Models\Section;
 use Filament\Forms;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -27,7 +30,7 @@ class RegistrationResource extends Resource
     {
         return $form
             ->schema([
-                //
+                DateTimePicker::make('created_at')->readOnly()
             ]);
     }
 
@@ -80,7 +83,7 @@ class RegistrationResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            UserRelationManager::class,
         ];
     }
 
@@ -92,4 +95,5 @@ class RegistrationResource extends Resource
             'edit' => Pages\EditRegistration::route('/{record}/edit'),
         ];
     }
+
 }

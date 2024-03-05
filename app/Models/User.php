@@ -70,7 +70,7 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsTo(College::class);
     }
 
-    public function shirt()
+    public function tShirtSize()
     {
         return $this->belongsTo(TShirtSize::class);
     }
