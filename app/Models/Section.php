@@ -28,4 +28,9 @@ class Section extends Model
     {
         return $this->belongsTo(Year::class);
     }
+
+    public function name()
+    {
+        return "$this->program->name() $this->year->name $this->section";
+    }
 }

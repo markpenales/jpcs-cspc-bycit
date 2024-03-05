@@ -177,10 +177,16 @@ onUnmounted(() => {
                         :class="{ 'd-flex': true, 'justify-content-end': isDesktop, 'mt-5': true, 'justify-content-center': !isDesktop }">
                         <img :src="assets.bycit_logo" alt="" :width="{ 300: isDesktop, 500: !isDesktop }">
                     </div>
-                    <div class="justify-content-start text-white fw-bold fst-italic fs-3 ms-3">
+                    <div class="d-flex justify-content-start align-items-center gap-2 text-white fw-bold fst-italic fs-3 ms-3">
                         <span>
                             Registration
                         </span>
+                        <button href='#'@click="logout"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" width="30px">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                            </svg></button>
+
                     </div>
 
                     <div class="row bg-white p-3 mx-3 border-0 rounded" id="form">
@@ -209,7 +215,7 @@ onUnmounted(() => {
                                         :class="{ 'border-danger': errors.middleInitial, 'font-small-caps': true, 'form-control': true }">
 
                                     <span v-if="errors.middleInitial" class="text-danger">{{ errors.middleInitial[0]
-                                    }}</span>
+                                        }}</span>
 
                                 </div>
 
@@ -242,7 +248,8 @@ onUnmounted(() => {
 
                                         <div @click="tShirtGuideVisibility = !tShirtGuideVisibility">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" width="30" class="" role="button">
+                                                stroke-width="1.5" stroke="currentColor" width="30" class=""
+                                                role="button">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
                                             </svg>
@@ -260,7 +267,8 @@ onUnmounted(() => {
                                     <select v-model="college"
                                         :class="{ 'border-danger': errors.college, 'font-small-caps': true, 'form-select': true }">
                                         <option value="" disabled selected>Select School</option>
-                                        <option v-for="college in colleges" :value="college.id">{{ college.name }}</option>
+                                        <option v-for="college in colleges" :value="college.id">{{ college.name }}
+                                        </option>
                                     </select>
                                     <span v-if="errors.college" class="text-danger">{{ errors.college[0] }}</span>
                                 </div>
@@ -320,7 +328,8 @@ onUnmounted(() => {
 
                             <div class="mt-1">
 
-                                <div v-if="restrictions.some(res => res.name === 'Allergies' && res.checked)" class="row">
+                                <div v-if="restrictions.some(res => res.name === 'Allergies' && res.checked)"
+                                    class="row">
                                     <div class="d-flex gap-1">
                                         <input type="text" placeholder="Allergies"
                                             v-model="restrictions.find(res => res.name === 'Allergies').allergy"
@@ -366,21 +375,24 @@ onUnmounted(() => {
                                     <span class="d-flex col-12 rounded-pill d-flex align-items-center form-group row">
                                         <label class="col-6">Full Name</label>
                                         <div class="col-6">
-                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">{{
-                                                getFullName()
-                                            }}</p>
+                                            <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
+                                                {{
+        getFullName()
+    }}</p>
                                         </div>
 
                                     </span>
                                     <span class="d-flex col-12 rounded-pill d-flex align-items-center form-group row">
                                         <label class="col-6">Nickname</label>
                                         <div class="col-6">
-                                            <div class="d-flex justify-content-center text-danger">This will appear on your
+                                            <div class="d-flex justify-content-center text-danger">This will appear on
+                                                your
                                                 ID!</div>
 
                                             <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
                                                 {{ nickname }}
-                                                <span v-if="!nickname" class="text-danger">*This field is required*</span>
+                                                <span v-if="!nickname" class="text-danger">*This field is
+                                                    required*</span>
                                             </p>
 
                                         </div>
@@ -401,7 +413,8 @@ onUnmounted(() => {
                                         <div class="col-6">
                                             <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
                                                 {{ find(colleges, college) }}
-                                                <span v-if="!college" class="text-danger">*This field is required*</span>
+                                                <span v-if="!college" class="text-danger">*This field is
+                                                    required*</span>
                                             </p>
                                         </div>
 
@@ -416,7 +429,8 @@ onUnmounted(() => {
                                             <p class="rounded px-3 py-1 form-control" style="border: 2px solid purple">
                                                 {{ find(programs, program, code) }} -
                                                 {{ find(years, year) }}{{ find(sections, section, section) }}
-                                                <span v-if="!section" class="text-danger">*This field is required*</span>
+                                                <span v-if="!section" class="text-danger">*This field is
+                                                    required*</span>
 
                                             </p>
                                         </div>
@@ -484,4 +498,3 @@ option {
     text-align: center;
 }
 </style>
-

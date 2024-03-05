@@ -10,6 +10,7 @@ use App\Models\Suffix;
 use App\Models\TShirtSize;
 use App\Models\User;
 use App\Models\Year;
+use App\Types\RoleType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
@@ -64,6 +65,11 @@ class RegistrationController extends Controller
 
     public function register(Request $request)
     {
+
+        if (auth()->user()->hasRole(RoleType::SUPER_ADMIN->value())) {
+            return redirect('/admin');
+        }
+
         $assets = [
             'mascot' => asset('/assets/mascot.png'),
             'circle' => asset('assets/Circle.svg'),

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Section;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -15,6 +16,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
@@ -32,10 +34,9 @@ class UserResource extends Resource
                 TextInput::make('first_name'),
                 TextInput::make('middle_initial'),
                 Select::make('college')->relationship('college', 'name'),
-                Select::make('section')->relationship('section', 'section'),
-                Select::make('t_shirt_size')->relationship('shirt', 'name'),
+                Select::make('t_shirt_size')->relationship('tShirtSize', 'name'),
+                Select::make('section')->relationship('section', 'section')->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->program->code} - {$record->year->name}{$record->section}")->label('Program'),
                 TextInput::make('nickname'),
-                TextInput::make('dietary_restrictions'),
 
             ]);
     }
@@ -44,9 +45,9 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('email'),
-                TextColumn::make('last_name'),
-                TextColumn::make('first_name'),
+                TextColumn::make('email')->searchable(),
+                TextColumn::make('last_name')->searchable(),
+                TextColumn::make('first_name')->searchable(),
                 TextColumn::make('college.name'),
             ])
             ->filters([

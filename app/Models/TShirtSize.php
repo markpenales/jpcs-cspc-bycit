@@ -14,4 +14,8 @@ class TShirtSize extends Model
         'length',
         'width',
     ];
+
+    public function users(){
+        return $this->hasMany(User::class);
+    }
 }

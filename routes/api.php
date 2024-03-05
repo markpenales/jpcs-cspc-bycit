@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/register', function (Request $request) {
-    $stringRule = ['required', 'max:255', 'min:3'];
+    $stringRule = ['required', 'max:255', 'min:2'];
     $attributes = $request->validate([
         'lastName' => $stringRule,
         'firstName' => $stringRule,
