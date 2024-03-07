@@ -32,19 +32,23 @@ onMounted(() => {
 
     <div :style='{ "background-image": "url(" + assets.background + ")", "min-height": "100vh", "min-width": "100vw", "background-size": "cover" }'
         class="font-small-caps">
-        <div class="d-flex justify-content-center align-items-center row w-100" style="height: 100vh;">
-            <div>
+        
+        <div class="container">
+            <div class="d-flex mx-0 justify-content-center align-items-center row w-100" style="height: 90vh;">
                 <div>
-                    <div :class="{ 'd-flex': true, 'justify-content-center': true }">
-                        <img :src="assets.bycit_logo" width="600">
+                    <div>
+                        <div :class="{ 'd-flex': true, 'justify-content-center': true }">
+                            <img :src="assets.bycit_logo" width="600">
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-center align-items-center ">
-                    <a :href="login" class="btn rounded-pill text-white px-5 py-1 fs-4"
-                        style="background-color: #A10075;">Registration</a>
+                    <div class="d-flex justify-content-center align-items-center ">
+                        <a :href="login" class="btn rounded-pill text-white py-1 fs-4"
+                            style="background-color: rgb(161, 0, 117); padding-left: 3rem; padding-right: 2.5rem">Registration</a>
+                    </div>
                 </div>
             </div>
         </div>
+        
     </div>
 </template>
 
