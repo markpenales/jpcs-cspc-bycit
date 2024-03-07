@@ -7,7 +7,7 @@ use Filament\Widgets\ChartWidget;
 
 class TShirtSizes extends ChartWidget
 {
-    protected static ?string $heading = 'Chart';
+    protected static ?string $heading = 'T-Shirt Size';
 
     protected function getData(): array
     {

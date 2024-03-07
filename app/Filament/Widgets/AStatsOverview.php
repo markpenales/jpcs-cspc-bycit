@@ -7,7 +7,7 @@ use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
-class StatsOverview extends BaseWidget
+class AStatsOverview extends BaseWidget
 {
     protected function getStats(): array
     {
@@ -15,8 +15,8 @@ class StatsOverview extends BaseWidget
             Stat::make('Users', User::all()->count()),
             Stat::make('Registrations', Registration::all()->count()),
             Stat::make('Registrations from other schools', function () {
-                return Registration::whereHas('user',function($subQuery){
-                    $subQuery->where('college_id', '!=' , '1');
+                return Registration::whereHas('user', function ($subQuery) {
+                    $subQuery->where('college_id', '!=', '1');
                 })->count();
             }),
         ];
