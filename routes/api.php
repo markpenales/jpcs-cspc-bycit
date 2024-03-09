@@ -23,6 +23,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/registrations', function (Request $request) {
+    return response()->json(Registration::with('user')->get());
+})->middleware('auth:sanctum');
+
 Route::post('/register', function (Request $request) {
     $stringRule = ['required', 'max:255', 'min:2'];
     $attributes = $request->validate([
@@ -68,15 +72,15 @@ Route::post('/register', function (Request $request) {
 
     $user = User::find($attributes['user']);
 
-    $user->last_name = !empty($lastName) ? $lastName : null;
-    $user->first_name = !empty($firstName) ? $firstName : null;
-    $user->middle_initial = !empty($middleInitial) ? $middleInitial : null;
-    $user->suffix = !empty($suffix) ? $suffix : null;
+    $user->last_name = !empty ($lastName) ? $lastName : null;
+    $user->first_name = !empty ($firstName) ? $firstName : null;
+    $user->middle_initial = !empty ($middleInitial) ? $middleInitial : null;
+    $user->suffix = !empty ($suffix) ? $suffix : null;
 
-    $user->college_id = !empty($college) ? $college : null;
-    $user->nickname = !empty($nickname) ? $nickname : null;
-    $user->section_id = !empty($section) ? $section : null;
-    $user->t_shirt_size_id = !empty($tshirt) ? $tshirt : null;
+    $user->college_id = !empty ($college) ? $college : null;
+    $user->nickname = !empty ($nickname) ? $nickname : null;
+    $user->section_id = !empty ($section) ? $section : null;
+    $user->t_shirt_size_id = !empty ($tshirt) ? $tshirt : null;
 
 
     $user->save();
@@ -86,7 +90,7 @@ Route::post('/register', function (Request $request) {
     $dietaryRestrictionsCollection = collect($dietaryRestrictions); // Convert to collection
 
     $dietaryRestrictionsCollection->each(function ($restriction) use ($user) {
-        if (isset($restriction['checked'])) {
+        if (isset ($restriction['checked'])) {
 
             $user->restrictions()->firstOrCreate([
                 'restriction_id' => Restriction::query()->where('name', $restriction['name'])->first()->id,

@@ -8,6 +8,8 @@ use Filament\Widgets\ChartWidget;
 class TShirtSizes extends ChartWidget
 {
     protected static ?string $heading = 'T-Shirt Size';
+    protected static ?int $sort = 1;
+
 
     protected function getData(): array
     {

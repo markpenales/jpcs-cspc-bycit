@@ -55,6 +55,8 @@ class User extends Authenticatable implements FilamentUser
         'password' => 'hashed',
     ];
 
+    protected $with = ['section', 'college', 'tShirtSize', 'restrictions'];
+
     public function canAccessPanel(\Filament\Panel $panel): bool
     {
         return $this->hasAnyRole([RoleType::SUPER_ADMIN->value(), RoleType::OFFICER->value()]);

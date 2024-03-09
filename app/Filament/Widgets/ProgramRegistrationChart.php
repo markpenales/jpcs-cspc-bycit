@@ -10,6 +10,8 @@ use Filament\Widgets\ChartWidget;
 class ProgramRegistrationChart extends ChartWidget
 {
     protected static ?string $heading = 'Programs';
+    protected static ?int $sort = 1;
+
 
 
     protected function getData(): array

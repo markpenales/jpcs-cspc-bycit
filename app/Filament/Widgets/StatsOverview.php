@@ -7,8 +7,9 @@ use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
-class AStatsOverview extends BaseWidget
+class StatsOverview extends BaseWidget
 {
+    protected static ?int $sort = 0;
     protected function getStats(): array
     {
         return [

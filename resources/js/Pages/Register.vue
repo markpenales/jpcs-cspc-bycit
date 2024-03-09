@@ -125,7 +125,7 @@ const handleResize = () => {
 };
 
 const getFullName = () => {
-    return lastName.value + (suffix.value ? ' ' + suffixes.find(suf => suf.id == suffix).name : '') + ', ' + (firstName.value) + (' ' + middleInitial.value + '.')
+    return lastName.value + (suffix.value ? ' ' + props.suffixes.find(suf => suf.id == suffix.value).name : '') + ', ' + (firstName.value) + (middleInitial.value ? ' ' + middleInitial.value + '.' : '')
 }
 
 watch([year, program], fetchData, { deep: true });
@@ -177,12 +177,13 @@ onUnmounted(() => {
                         :class="{ 'd-flex': true, 'justify-content-end': isDesktop, 'mt-5': true, 'justify-content-center': !isDesktop }">
                         <img :src="assets.bycit_logo" alt="" :width="{ 300: isDesktop, 500: !isDesktop }">
                     </div>
-                    <div class="d-flex justify-content-start align-items-center gap-2 text-white fw-bold fst-italic fs-3 ms-3">
+                    <div
+                        class="d-flex justify-content-start align-items-center gap-2 text-white fw-bold fst-italic fs-3 ms-3">
                         <span>
                             Registration
                         </span>
-                        <button href='#'@click="logout"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" width="30px">
+                        <button href='#' @click="logout"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="30px">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
                             </svg></button>
