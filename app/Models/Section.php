@@ -36,6 +36,9 @@ class Section extends Model
 
     public function name()
     {
-        return "$this->program->name() $this->year->name $this->section";
+        $program = $this->program->code;
+        $year = $this->year->name;
+        $section = $this->section;
+        return "$program - $year$section";
     }
 }

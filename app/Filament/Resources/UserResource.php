@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\UserExporter;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\Section;
@@ -12,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -35,7 +37,7 @@ class UserResource extends Resource
                 TextInput::make('middle_initial'),
                 Select::make('college')->relationship('college', 'name'),
                 Select::make('t_shirt_size')->relationship('tShirtSize', 'name'),
-                Select::make('section')->relationship('section', 'section')->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->program->code} - {$record->year->name}{$record->section}")->label('Program'),
+                Select::make('section')->relationship('section', 'section')->getOptionLabelFromRecordUsing(fn(Section $record) => "{$record->program->code} - {$record->year->name}{$record->section}")->label('Program'),
                 TextInput::make('nickname'),
 
             ]);

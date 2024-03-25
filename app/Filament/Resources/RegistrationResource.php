@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\RegistrationExporter;
 use App\Filament\Resources\RegistrationResource\Pages;
 use App\Filament\Resources\RegistrationResource\RelationManagers;
 use App\Filament\Resources\RegistrationResource\RelationManagers\UserRelationManager;
@@ -10,10 +11,12 @@ use App\Models\Registration;
 use App\Models\Section;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -30,6 +33,7 @@ class RegistrationResource extends Resource
     {
         return $form
             ->schema([
+                Select::make('user_id')->relationship('user', 'name'),
                 DateTimePicker::make('created_at')->readOnly()
             ]);
     }
@@ -77,6 +81,9 @@ class RegistrationResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(RegistrationExporter::class),
             ]);
     }
 
