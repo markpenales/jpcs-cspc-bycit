@@ -18,6 +18,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -48,7 +49,7 @@ class RegistrationResource extends Resource
                 TextColumn::make('user.section.year.name')->searchable(),
                 TextColumn::make('user.section.section')->searchable(),
                 TextColumn::make('user.nickname')->searchable(),
-                TextColumn::make('created_at')
+                ToggleColumn::make('is_paid')->label('Paid'),
             ])
             ->filters([
                 SelectFilter::make('college')->relationship('user.college', 'name')->label('School'),

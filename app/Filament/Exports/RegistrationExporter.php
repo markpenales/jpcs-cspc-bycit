@@ -44,6 +44,11 @@ class RegistrationExporter extends Exporter
                     return $restrictionList->flatten();
                 })
                 ->label('Restrictions'),
+            ExportColumn::make('is_paid')
+                ->formatStateUsing(function ($state) {
+                    return $state ? 'Yes' : 'No';
+                })
+                ->label('Paid'),
             ExportColumn::make('created_at'),
             ExportColumn::make('updated_at'),
         ];
