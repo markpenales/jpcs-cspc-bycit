@@ -23,7 +23,7 @@ class RegistrationExporter extends Exporter
                 ->label('Nickname'),
             ExportColumn::make('user.college.name')
                 ->label('School'),
-            ExportColumn::make('user.t_shirt_size.name')
+            ExportColumn::make('user.tShirtSize.name')
                 ->label('T-Shirt'),
             ExportColumn::make('user.section.section')
                 ->state(function (Registration $registration) {

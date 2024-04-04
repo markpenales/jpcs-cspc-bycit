@@ -14,11 +14,13 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -56,24 +58,31 @@ class RegistrationResource extends Resource
                 SelectFilter::make('program')->relationship('user.section.program', 'code'),
                 SelectFilter::make('year')->relationship('user.section.year', 'name'),
                 // TODO:
-                SelectFilter::make('section')
-                    ->options(function () {
-                        $tableFilters = request('tableFilters') ?? null;
-                        $programId = $tableFilters['program'] ?? null;
-                        $yearName = $tableFilters['year'] ?? null;
-                        if ($programId && $yearName) {
-                            // Retrieve sections based on the selected program and year
-                            $sections = Section::whereHas('year', function ($query) use ($yearName) {
-                                $query->where('id', $yearName);
-                            })->whereHas('program', function ($query) use ($programId) {
-                                $query->where('id', $programId);
-                            })->pluck('section', 'id')->toArray();
+                Filter::make('section')->form([
+                    Select::make('program')->relationship('user.section.program', 'code')
+                        ->label('Program'),
+                    Select::make('year')->relationship('user.section.year', 'name')
+                        ->label('Year'),
+                    Select::make('section')->options(function (Get $get) {
 
-                            return $sections;
+                        $program = $get('program');
+                        $year = $get('year');
+                        if (!$program || !$year) {
+                            return [];
                         }
-
-                        return [];
-                    })
+                        return Section::where('program_id', $program)->where('year_id', $year)->pluck('section', 'id')->toArray();
+                    }),
+                ])
+                    ->query(
+                        fn(Builder $query, array $data) =>
+                        empty ($data['section']) ? $query :
+                        $query->whereHas(
+                            'user',
+                            function ($subQuery) use ($data) {
+                                $subQuery->where('section_id', $data['section']);
+                            }
+                        )
+                    )
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
