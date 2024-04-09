@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,8 @@ Route::middleware(['auth'])->post('/logout', function () {
     session()->flush();
     return redirect('/');
 });
+
+Route::get('/{register}', [QRCodeController::class, 'scan'])->middleware('redirect-con-guide');
 
 
 require __DIR__ . '/auth.php';
