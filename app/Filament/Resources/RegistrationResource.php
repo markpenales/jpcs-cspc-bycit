@@ -55,9 +55,6 @@ class RegistrationResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('college')->relationship('user.college', 'name')->label('School'),
-                SelectFilter::make('program')->relationship('user.section.program', 'code'),
-                SelectFilter::make('year')->relationship('user.section.year', 'name'),
-                // TODO:
                 Filter::make('section')->form([
                     Select::make('program')->relationship('user.section.program', 'code')
                         ->label('Program'),
