@@ -67,6 +67,8 @@ class SectionSeeder extends Seeder
             "BSIS 3B",
             "BSIS 4A",
             "BSIS 4B",
+            "BSCpE 1A",
+            "BSCpE 1B",
         ];
 
         foreach ($sections as $section) {

@@ -18,6 +18,7 @@ class ProgramSeeder extends Seeder
             "Bachelor of Science in Information Technology" => "BSIT",
             "Bachelor of Science in Information Science" => "BSIS",
             "Bachelor Library and Information Science" => "BLIS",
+            "Bachelor of Science in Computer Engineering" => "BSCpE",
         ];
 
         foreach ($programs as $program => $code) {
