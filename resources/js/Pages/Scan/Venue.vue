@@ -76,8 +76,9 @@ watch(selectedScanner, (value) => {
         <div class="container">
             <div v-if="selectedScanner === null">
                 <h1>{{ venue }}</h1>
+                <h4><a href="/scanner">Back to List</a></h4>
                 <div>
-                    <div v-for="value, key in list" class="btn btn-outline-secondary text-white px-5"
+                    <div v-for="value, key in list" class="border-bottom border-top p-3 my-2"
                         v-on:click="selectedScanner = key">
                         {{ key }}
                     </div>
@@ -86,6 +87,7 @@ watch(selectedScanner, (value) => {
 
             <div :class="{ 'd-none': selectedScanner === null }">
                 <h1>{{ selectedScanner }} - {{ venue }}</h1>
+                <h4 v-on:click="selectedScanner = null">Back to List</h4>
 
                 <div class="container">
                     <video id="qr-scanner"></video>

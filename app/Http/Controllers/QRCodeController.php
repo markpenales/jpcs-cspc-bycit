@@ -26,7 +26,7 @@ class QRCodeController extends Controller
         dd($register);
     }
 
-    public function villafuerteHall()
+    private function getVenueData($venueName)
     {
         $assets = [
             'background' => asset('assets/background.svg'),
@@ -36,14 +36,41 @@ class QRCodeController extends Controller
             'Kit Retrieval' => false,
         ];
 
-        return Inertia::render(
-            'Scan/Venue',
-            [
-                'assets' => $assets,
-                'venue' => "Villafuerte Hall",
-                'list' => $list,
-            ]
-        );
+        if ($venueName === "Pearl" || $venueName === "CTDE" || $venueName === "Auditorium") {
+            $list = [
+                'Lunch (1st Day)' => false,
+                'Snack (1st Day - PM)' => false,
+                'Snack (2nd Day - AM)' => false,
+                'Lunch (2nd Day)' => false,
+                'Snack (2nd Day - PM)' => false,
+            ];
+        }
+
+        return [
+            'assets' => $assets,
+            'venue' => $venueName,
+            'list' => $list,
+        ];
+    }
+
+    public function villafuerteHall()
+    {
+        return Inertia::render('Scan/Venue', $this->getVenueData("Villafuerte Hall"));
+    }
+
+    public function pearl()
+    {
+        return Inertia::render('Scan/Venue', $this->getVenueData("Pearl"));
+    }
+
+    public function ctde()
+    {
+        return Inertia::render('Scan/Venue', $this->getVenueData("CTDE"));
+    }
+
+    public function auditorium()
+    {
+        return Inertia::render('Scan/Venue', $this->getVenueData("Auditorium"));
     }
     public function save(Request $request)
     {
