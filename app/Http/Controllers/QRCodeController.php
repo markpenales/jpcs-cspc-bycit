@@ -39,17 +39,14 @@ class QRCodeController extends Controller
         if ($venueName === "Pearl" || $venueName === "CTDE" || $venueName === "Auditorium") {
             $list = [
 
-                'Attendance (1st Day - PM)' => false,
-                'Attendance (2nd Day - AM)' => false,
-                'Attendance (2nd Day - PM)' => false,
+                "Attendance (1st Day - PM - $venueName)" => false,
+                "Attendance (2nd Day - AM - $venueName)" => false,
+                "Attendance (2nd Day - PM - $venueName)" => false,
                 'Lunch (1st Day)' => false,
                 'Lunch (2nd Day)' => false,
                 'Snack (1st Day - PM)' => false,
                 'Snack (2nd Day - AM)' => false,
                 'Snack (2nd Day - PM)' => false,
-
-
-
             ];
         }
 

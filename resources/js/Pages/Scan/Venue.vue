@@ -54,7 +54,7 @@ watch(selectedScanner, (value) => {
             highlightScanRegion: true,
             highlightCodeOutline: true,
             returnDetailedScanResult: true,
-            maxScansPerSecond: 2,
+            maxScansPerSecond: 1,
         })
 
         qrScanner.setInversionMode('both')
@@ -87,7 +87,7 @@ watch(selectedScanner, (value) => {
 
             <div :class="{ 'd-none': selectedScanner === null }">
                 <h1>{{ selectedScanner }} - {{ venue }}</h1>
-                <h4 v-on:click="selectedScanner = null">Back to List</h4>
+                <h4 v-on:click="()=>{selectedScanner = null; qrScanner.stop()}">Back to List</h4>
 
                 <div class="container">
                     <video id="qr-scanner"></video>

@@ -1,25 +1,49 @@
 {
+  "_index-D043aQtF.js": {
+    "file": "assets/index-D043aQtF.js",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "node_modules/qr-scanner/qr-scanner-worker.min.js": {
+    "file": "assets/qr-scanner-worker.min-D85Z9gVD.js",
+    "src": "node_modules/qr-scanner/qr-scanner-worker.min.js",
+    "isDynamicEntry": true
+  },
   "resources/js/Pages/Register.vue": {
-    "file": "assets/Register-Cg-3mu-d.js",
+    "file": "assets/Register-DW2CPIeR.js",
     "src": "resources/js/Pages/Register.vue",
     "isDynamicEntry": true,
     "imports": [
-      "resources/js/app.js"
+      "resources/js/app.js",
+      "_index-D043aQtF.js"
     ],
     "css": [
       "assets/Register-D2X4RMK3.css"
     ]
   },
   "resources/js/Pages/Scan/Index.vue": {
-    "file": "assets/Index-DFSgIiE2.js",
+    "file": "assets/Index-B1tac1la.js",
     "src": "resources/js/Pages/Scan/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js"
     ]
   },
+  "resources/js/Pages/Scan/Venue.vue": {
+    "file": "assets/Venue-Ue3lJmbF.js",
+    "src": "resources/js/Pages/Scan/Venue.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_index-D043aQtF.js"
+    ],
+    "dynamicImports": [
+      "node_modules/qr-scanner/qr-scanner-worker.min.js"
+    ]
+  },
   "resources/js/Pages/Welcome.vue": {
-    "file": "assets/Welcome-C9cNFmOb.js",
+    "file": "assets/Welcome-2pu8jPRx.js",
     "src": "resources/js/Pages/Welcome.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -30,12 +54,13 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-CG7idFQa.js",
+    "file": "assets/app-9quzgl4P.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
       "resources/js/Pages/Register.vue",
       "resources/js/Pages/Scan/Index.vue",
+      "resources/js/Pages/Scan/Venue.vue",
       "resources/js/Pages/Welcome.vue"
     ],
     "css": [
