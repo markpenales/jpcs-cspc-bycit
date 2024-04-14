@@ -51,7 +51,7 @@ class RegistrationResource extends Resource
                 TextColumn::make('user.section.year.name')->searchable(),
                 TextColumn::make('user.section.section')->searchable(),
                 TextColumn::make('user.nickname')->searchable(),
-                ToggleColumn::make('is_paid')->label('Paid'),
+                ToggleColumn::make('is_paid')->label('Paid')->searchable(),
             ])
             ->filters([
                 SelectFilter::make('college')->relationship('user.college', 'name')->label('School'),

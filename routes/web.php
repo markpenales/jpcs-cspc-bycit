@@ -35,7 +35,16 @@ Route::middleware(['auth'])->post('/logout', function () {
     return redirect('/');
 });
 
-Route::get('/{register}', [QRCodeController::class, 'scan'])->middleware('redirect-con-guide');
 
+Route::middleware(['is-admin'])->prefix('/scanner')->as('scan.')->group(function () {
+    Route::get('/', [QRCodeController::class, 'index'])->name('scan');
+    Route::get('/villafuerte_hall', [QRCodeController::class, 'villafuerteHall'])->name('villafuerte_hall');
+    Route::get('/pearl', [QRCodeController::class, 'pearl'])->name('pearl');
+    Route::get('/ctde', [QRCodeController::class, 'ctde'])->name('ctde');
+    Route::get('/auditorium', [QRCodeController::class, 'auditorium'])->name('auditorium');
+});
+
+
+Route::get('/{register}', [QRCodeController::class, 'scan'])->middleware('redirect-con-guide');
 
 require __DIR__ . '/auth.php';

@@ -27,7 +27,7 @@ class RegistrationExporter extends Exporter
                 ->label('T-Shirt'),
             ExportColumn::make('user.section.section')
                 ->state(function (Registration $registration) {
-                    return $registration->user->section ? $registration->user->section->name() : '';
+                    return $registration->user?->section ? $registration->user->section->name() : '';
                 }),
             ExportColumn::make('user.restrictions')
                 ->state(function (Registration $registration) {

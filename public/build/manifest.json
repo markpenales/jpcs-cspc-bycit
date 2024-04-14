@@ -1,6 +1,6 @@
 {
   "resources/js/Pages/Register.vue": {
-    "file": "assets/Register-Cr5PxSaF.js",
+    "file": "assets/Register-Cg-3mu-d.js",
     "src": "resources/js/Pages/Register.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -10,8 +10,16 @@
       "assets/Register-D2X4RMK3.css"
     ]
   },
+  "resources/js/Pages/Scan/Index.vue": {
+    "file": "assets/Index-DFSgIiE2.js",
+    "src": "resources/js/Pages/Scan/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
   "resources/js/Pages/Welcome.vue": {
-    "file": "assets/Welcome-COZE3LQk.js",
+    "file": "assets/Welcome-C9cNFmOb.js",
     "src": "resources/js/Pages/Welcome.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -22,11 +30,12 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-DWMBW03h.js",
+    "file": "assets/app-CG7idFQa.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
       "resources/js/Pages/Register.vue",
+      "resources/js/Pages/Scan/Index.vue",
       "resources/js/Pages/Welcome.vue"
     ],
     "css": [

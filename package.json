@@ -24,6 +24,7 @@
     "dependencies": {
         "ant-design-vue": "^4.0.0-rc.6",
         "bootstrap-vue": "^2.23.1",
+        "qr-scanner": "^1.4.2",
         "vue-final-modal": "^4.5.4"
     }
 }
