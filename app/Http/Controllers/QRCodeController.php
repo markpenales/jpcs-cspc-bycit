@@ -31,31 +31,36 @@ class QRCodeController extends Controller
         $assets = [
             'background' => asset('assets/background.svg'),
         ];
-        dd('hi');
-    }
 
-    public function pearl()
-    {
-        $assets = [
-            'background' => asset('assets/background.svg'),
+        $list = [
+            'Kit Retrieval' => false,
         ];
-        dd('hi');
-    }
 
-    public function ctde()
-    {
-        $assets = [
-            'background' => asset('assets/background.svg'),
-        ];
-        dd('hi');
+        return Inertia::render(
+            'Scan/Venue',
+            [
+                'assets' => $assets,
+                'venue' => "Villafuerte Hall",
+                'list' => $list,
+            ]
+        );
     }
-
-    public function auditorium()
+    public function save(Request $request)
     {
-        $assets = [
-            'background' => asset('assets/background.svg'),
-        ];
-        dd('hi');
+        $registration = Registration::with('user')->find($request->input('scan'));
+        abort_if(!$registration, 404, 'Registration not found!');
+        $attendance = $registration->attendances()->firstOrCreate([
+            'venue' => $request->input('selectedScanner'),
+        ]);
+        $registration = collect($registration);
+        $registration->put('recorded', $attendance->wasRecentlyCreated);
+        return response()->json(
+            [
+                'message' => 'Registration found!',
+                'registration' => $registration,
+            ],
+            200
+        );
     }
 
 }

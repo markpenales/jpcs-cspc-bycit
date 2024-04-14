@@ -42,8 +42,10 @@ Route::middleware(['is-admin'])->prefix('/scanner')->as('scan.')->group(function
     Route::get('/pearl', [QRCodeController::class, 'pearl'])->name('pearl');
     Route::get('/ctde', [QRCodeController::class, 'ctde'])->name('ctde');
     Route::get('/auditorium', [QRCodeController::class, 'auditorium'])->name('auditorium');
-});
 
+    Route::get('/scan', [QRCodeController::class, 'save'])->name('save');
+
+});
 
 Route::get('/{register}', [QRCodeController::class, 'scan'])->middleware('redirect-con-guide');
 
