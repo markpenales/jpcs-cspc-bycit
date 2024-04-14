@@ -31,6 +31,11 @@ class RegistrationExporter extends Exporter
                 }),
             ExportColumn::make('user.restrictions')
                 ->state(function (Registration $registration) {
+                    if($registration->user == null)
+                    {
+                        return collect([]);
+                    }
+
                     $restrictions = $registration->user->restrictions;
                     $restrictionList = collect([]);
                     foreach ($restrictions as $restriction) {
