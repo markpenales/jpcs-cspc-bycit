@@ -18,12 +18,10 @@ class TShirtSizes extends ChartWidget
         $activeFilter = $this->filter;
         $tShirtSizes = TShirtSize::withCount([
             'users' => function ($query) use ($activeFilter) {
-                $query->whereHas('section', function ($query) use ($activeFilter) {
-                    if($activeFilter == null || $activeFilter == 0) {
-                        return $query;
-                    };
-                    $query->where('program_id', $activeFilter);
-                });
+                if ($activeFilter == null || $activeFilter == 0) {
+                    return $query;
+                };
+                $query->where('program_id', $activeFilter);
             }
         ])->whereIn('name', $labels)->pluck('users_count');
 
