@@ -79,7 +79,11 @@ class RegistrationResource extends Resource
                                 $subQuery->where('section_id', $data['section']);
                             }
                         )
-                    )
+                    ),
+                SelectFilter::make('is_paid')->label('Paid')->options([
+                    '1' => 'Paid',
+                    '0' => 'Unpaid',
+                ])
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
