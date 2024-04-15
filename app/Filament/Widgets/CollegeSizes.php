@@ -2,13 +2,14 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\College;
 use App\Models\Program;
 use App\Models\TShirtSize;
 use Filament\Widgets\ChartWidget;
 
-class TShirtSizes extends ChartWidget
+class CollegeSizes extends ChartWidget
 {
-    protected static ?string $heading = 'T-Shirt Size';
+    protected static ?string $heading = 'College T-shirt Sizes';
     protected static ?int $sort = 1;
 
 
@@ -21,9 +22,8 @@ class TShirtSizes extends ChartWidget
                 if ($activeFilter == null || $activeFilter == 0) {
                     return $query;
                 };
-                $query->whereHas('section', function($subQuery) use ($activeFilter){
-                    $subQuery->where('program_id', $activeFilter);
-                });
+                $query->where('college_id', $activeFilter);
+
             }
         ])->whereIn('name', $labels)->pluck('users_count');
 
@@ -45,7 +45,7 @@ class TShirtSizes extends ChartWidget
 
     protected function getFilters(): array|null
     {
-        $programs = Program::pluck('name', 'id')->toArray();
+        $programs = College::pluck('name', 'id')->toArray();
         $programs = ['0' => 'All'] + $programs;
         return $programs;
     }
