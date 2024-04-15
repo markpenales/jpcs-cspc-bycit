@@ -39,6 +39,10 @@ class UserResource extends Resource
                 Select::make('t_shirt_size')->relationship('tShirtSize', 'name'),
                 Select::make('section')->relationship('section', 'section')->getOptionLabelFromRecordUsing(fn(Section $record) => "{$record->program->code} - {$record->year->name}{$record->section}")->label('Program'),
                 TextInput::make('nickname'),
+                Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->preload()
+                    ->multiple(),
 
             ]);
     }
