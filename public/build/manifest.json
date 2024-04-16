@@ -1,6 +1,6 @@
 {
-  "_index-D043aQtF.js": {
-    "file": "assets/index-D043aQtF.js",
+  "_index-D9fEIyq6.js": {
+    "file": "assets/index-D9fEIyq6.js",
     "imports": [
       "resources/js/app.js"
     ]
@@ -10,20 +10,31 @@
     "src": "node_modules/qr-scanner/qr-scanner-worker.min.js",
     "isDynamicEntry": true
   },
+  "resources/js/Pages/Done.vue": {
+    "file": "assets/Done-BUujbZRg.js",
+    "src": "resources/js/Pages/Done.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "css": [
+      "assets/Done-BrjOiZQ0.css"
+    ]
+  },
   "resources/js/Pages/Register.vue": {
-    "file": "assets/Register-DW2CPIeR.js",
+    "file": "assets/Register-BIY4JuWS.js",
     "src": "resources/js/Pages/Register.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_index-D043aQtF.js"
+      "_index-D9fEIyq6.js"
     ],
     "css": [
       "assets/Register-D2X4RMK3.css"
     ]
   },
   "resources/js/Pages/Scan/Index.vue": {
-    "file": "assets/Index-B1tac1la.js",
+    "file": "assets/Index-ZkTkgA64.js",
     "src": "resources/js/Pages/Scan/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -31,33 +42,34 @@
     ]
   },
   "resources/js/Pages/Scan/Venue.vue": {
-    "file": "assets/Venue-Ue3lJmbF.js",
+    "file": "assets/Venue-DX8Kvpin.js",
     "src": "resources/js/Pages/Scan/Venue.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_index-D043aQtF.js"
+      "_index-D9fEIyq6.js"
     ],
     "dynamicImports": [
       "node_modules/qr-scanner/qr-scanner-worker.min.js"
     ]
   },
   "resources/js/Pages/Welcome.vue": {
-    "file": "assets/Welcome-2pu8jPRx.js",
+    "file": "assets/Welcome-RM7qMzwA.js",
     "src": "resources/js/Pages/Welcome.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js"
     ],
     "css": [
-      "assets/Welcome-BrjOiZQ0.css"
+      "assets/Done-BrjOiZQ0.css"
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-9quzgl4P.js",
+    "file": "assets/app-Bye9hkoP.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
+      "resources/js/Pages/Done.vue",
       "resources/js/Pages/Register.vue",
       "resources/js/Pages/Scan/Index.vue",
       "resources/js/Pages/Scan/Venue.vue",
