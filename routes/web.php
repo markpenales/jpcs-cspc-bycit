@@ -49,15 +49,14 @@ Route::middleware(['is-admin'])->prefix('/scanner')->as('scan.')->group(function
 
 });
 Route::get('/participants', function () {
-    $attendancesByVenue = Attendance::groupBy('venue')->get();
-
-    $usersPerVenue = $attendancesByVenue->map(function ($attendances) {
-        return $attendances->map(function ($attendance) {
-            return $attendance->registration->user->name;
+    $attendancesByVenue = Attendance::with('registration.user')
+        ->get()
+        ->groupBy('venue')
+        ->map(function ($attendances) {
+            return $attendances->pluck('registration.user.name')->unique();
         });
-    });
 
-    dd($usersPerVenue);
+    dd($attendancesByVenue);
 });
 Route::get('/{register}', [QRCodeController::class, 'scan'])->middleware('redirect-con-guide');
 
