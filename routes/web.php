@@ -49,9 +49,9 @@ Route::middleware(['is-admin'])->prefix('/scanner')->as('scan.')->group(function
  
 });
 Route::get('/participants', function(){
-    Attendance::where('venue', 'Kit Retrieval')->each(function($attendance){
+    dd(Attendance::where('venue', 'Kit Retrieval')->each(function($attendance){
         $attendance->registration->user->name;
-    });
+    }));
 });
 Route::get('/{register}', [QRCodeController::class, 'scan'])->middleware('redirect-con-guide');
 
