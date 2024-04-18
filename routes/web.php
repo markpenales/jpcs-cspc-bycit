@@ -46,12 +46,18 @@ Route::middleware(['is-admin'])->prefix('/scanner')->as('scan.')->group(function
     Route::get('/scan', [QRCodeController::class, 'save'])->name('save');
     Route::get('/scan/new', [QRCodeController::class, 'new'])->name('new');
     Route::get('/scan/save', [QRCodeController::class, 'blank'])->name('blank');
- 
+
 });
-Route::get('/participants', function(){
-    dd(Attendance::groupBy('venue')->get()->map(function($attendance){
-        return $attendance->registration->user->name;
-    }));
+Route::get('/participants', function () {
+    $attendancesByVenue = Attendance::groupBy('venue')->get();
+
+    $usersPerVenue = $attendancesByVenue->map(function ($attendances) {
+        return $attendances->map(function ($attendance) {
+            return $attendance->registration->user->name;
+        });
+    });
+
+    dd($usersPerVenue);
 });
 Route::get('/{register}', [QRCodeController::class, 'scan'])->middleware('redirect-con-guide');
 
