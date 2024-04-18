@@ -78,7 +78,7 @@ class RegistrationController extends Controller
             'shirt_guide' => asset('assets/shirt1.png'),
         ];
 
-        return Inertia::render('Done', [
+        return Inertia::render('Register', [
             'user' => auth()->user()->load(['section', 'registration']),
             'colleges' => College::query()->orderBy('name', 'asc')->get(),
             'programs' => Program::query()->orderBy('name', 'asc')->get(),
