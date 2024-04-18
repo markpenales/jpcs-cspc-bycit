@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from "@inertiajs/vue3"
+import { Head, useForm } from "@inertiajs/vue3"
 import { onMounted, ref, watch, h } from "vue"
 import QrScanner from "qr-scanner";
 import axios from "axios";
@@ -32,23 +32,30 @@ watch(selectedScanner, (value) => {
         qrScanner = new QrScanner(scanner, (result) => {
             const id = result.data.split('/').pop()
             qrScanner.stop()
-            axios.get('/scanner/scan', {
-                params: {
-                    scan: id,
-                    selectedScanner: selectedScanner.value
-                }
-            }).then(response => {
-                console.log(response.data.registration)
-                registrationInfo.value = response.data.registration
-                console.log(registrationInfo.value)
-                registrationInfoModalVisible.value = true
-            }).catch(error => {
+            if (props.venue != "New") {
 
-                console.log(error)
-                // message.error("Error: " + error.response.data.message, 2)
-                qrScanner.start()
+                axios.get('/scanner/scan', {
+                    params: {
+                        scan: id,
+                        selectedScanner: selectedScanner.value
+                    }
+                }).then(response => {
+                    console.log(response.data.registration)
+                    registrationInfo.value = response.data.registration
+                    console.log(registrationInfo.value)
+                    registrationInfoModalVisible.value = true
+                }).catch(error => {
 
-            })
+                    console.log(error)
+                    // message.error("Error: " + error.response.data.message, 2)
+                    qrScanner.start()
+
+                })
+            }
+            else{
+               console.log('show modal')
+            }
+
 
         }, {
             highlightScanRegion: true,
@@ -87,7 +94,7 @@ watch(selectedScanner, (value) => {
 
             <div :class="{ 'd-none': selectedScanner === null }">
                 <h1>{{ selectedScanner }} - {{ venue }}</h1>
-                <h4 v-on:click="()=>{selectedScanner = null; qrScanner.stop()}">Back to List</h4>
+                <h4 v-on:click="() => { selectedScanner = null; qrScanner.stop() }">Back to List</h4>
 
                 <div class="container">
                     <video id="qr-scanner"></video>
@@ -139,6 +146,10 @@ watch(selectedScanner, (value) => {
             <div class="form-label">Paid: </div>
             <div class="form-control"> {{ registrationInfo.is_paid ? "Yes" : "No" }}</div>
         </div>
+    </Modal>
+
+    <Modal v-model:open="registrationFormVisible" title="New Registration">
+        <form></form>
     </Modal>
 
 </template>

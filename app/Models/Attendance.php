@@ -16,3 +16,4 @@ class Attendance extends Model
         return $this->belongsTo(Registration::class);
     }
 }
+

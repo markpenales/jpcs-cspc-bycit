@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Registration;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,6 +19,7 @@ class QRCodeController extends Controller
             'pearl' => route('scan.pearl'),
             'ctde' => route('scan.ctde'),
             'auditorium' => route('scan.auditorium'),
+            'new' => route('scan.new'),
         ];
         return Inertia::render('Scan/Index', ['assets' => $assets, 'links' => $links]);
     }
@@ -47,6 +49,12 @@ class QRCodeController extends Controller
                 'Snack (1st Day - PM)' => false,
                 'Snack (2nd Day - AM)' => false,
                 'Snack (2nd Day - PM)' => false,
+            ];
+        }
+
+        if ($venueName === "New") {
+            $list = [
+                "Register" => false,
             ];
         }
 
@@ -89,6 +97,28 @@ class QRCodeController extends Controller
             [
                 'message' => 'Registration found!',
                 'registration' => $registration,
+            ],
+            200
+        );
+    }
+
+    public function new(Request $request)
+    {
+        return Inertia::render('Scan/Venue', $this->getVenueData("New"));
+
+    }
+
+    public function blank(Request $request)
+    {
+        $user = User::query()->where('email', $request->input('email'))->first();
+        abort_if(!$user, 404, 'User not found!');
+
+
+        $user->registration()->create();
+        return response()->json(
+            [
+                'message' => 'Registration created!',
+                'registration' => $user->registration,
             ],
             200
         );

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\RegistrationController;
+use App\Models\Attendance;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,7 +27,6 @@ Route::middleware(['guest'])->prefix('/callback')->as('sso.')->group(function ()
         ->name('redirect');
     Route::get('/google', [RegistrationController::class, 'callback'])
         ->name('callback');
-
 });
 
 Route::middleware(['auth'])->post('/logout', function () {
@@ -44,9 +44,15 @@ Route::middleware(['is-admin'])->prefix('/scanner')->as('scan.')->group(function
     Route::get('/auditorium', [QRCodeController::class, 'auditorium'])->name('auditorium');
 
     Route::get('/scan', [QRCodeController::class, 'save'])->name('save');
+    Route::get('/scan/new', [QRCodeController::class, 'new'])->name('new');
+    Route::get('/scan/save', [QRCodeController::class, 'blank'])->name('blank');
  
 });
-
+Route::get('/participants', function(){
+    Attendance::where('venue', 'Kit Retrieval')->each(function($attendance){
+        $attendance->registration->user->name;
+    });
+});
 Route::get('/{register}', [QRCodeController::class, 'scan'])->middleware('redirect-con-guide');
 
 require __DIR__ . '/auth.php';
