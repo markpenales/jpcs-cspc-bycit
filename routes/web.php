@@ -49,7 +49,7 @@ Route::middleware(['is-admin'])->prefix('/scanner')->as('scan.')->group(function
  
 });
 Route::get('/participants', function(){
-    dd(Attendance::where('venue', 'Kit Retrieval')->each(function($attendance){
+    dd(Attendance::where('venue', 'Kit Retrieval')->map(function($attendance){
         return $attendance->registration->user->name;
     }));
 });
