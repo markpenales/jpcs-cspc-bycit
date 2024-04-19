@@ -57,7 +57,7 @@ Route::get('/participants', function () {
             return $attendances->pluck('registration.user.name')->unique();
         });
 
-    dd([$attendancesByVenue->get('Attendance (2nd Day - AM - CTDE)'), $attendancesByVenue->get('Attendance (2nd Day - AM - Auditorium)'), $attendancesByVenue->get('Attendance (2nd Day - AM - Pearl)'),]);
+    dd([$attendancesByVenue->get('Attendance (2nd Day - PM - CTDE)'), $attendancesByVenue->get('Attendance (2nd Day - PM - Auditorium)'), $attendancesByVenue->get('Attendance (2nd Day - PM - Pearl)'),]);
 });
 
 Route::get('/section/{section}', function (Section $section) {
