@@ -56,7 +56,7 @@ Route::get('/participants', function () {
             return $attendances->pluck('registration.user.name')->unique();
         });
 
-    dd($attendancesByVenue->toArray());
+    dd([$attendancesByVenue->get('Attendance (2nd Day - AM - CTDE)'),$attendancesByVenue->get('Attendance (2nd Day - AM - Auditorium)'), $attendancesByVenue->get('Attendance (2nd Day - AM - Pearl)'),  ]);
 });
 Route::get('/{register}', [QRCodeController::class, 'scan'])->middleware('redirect-con-guide');
 
