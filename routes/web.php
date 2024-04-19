@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\RegistrationController;
 use App\Models\Attendance;
+use App\Models\Section;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -56,8 +57,20 @@ Route::get('/participants', function () {
             return $attendances->pluck('registration.user.name')->unique();
         });
 
-    dd([$attendancesByVenue->get('Attendance (2nd Day - AM - CTDE)'),$attendancesByVenue->get('Attendance (2nd Day - AM - Auditorium)'), $attendancesByVenue->get('Attendance (2nd Day - AM - Pearl)'),  ]);
+    dd([$attendancesByVenue->get('Attendance (2nd Day - AM - CTDE)'), $attendancesByVenue->get('Attendance (2nd Day - AM - Auditorium)'), $attendancesByVenue->get('Attendance (2nd Day - AM - Pearl)'),]);
 });
+
+Route::get('/section/{section}', function (Section $section) {
+    $attendances = Attendance::with('registration.user')
+        ->where('section_id', $section->id)
+        ->get()
+        ->groupBy('venue')
+        ->map(function ($attendances) {
+            return $attendances->pluck('registration.user.name')->unique();
+        });
+    dd($attendances);
+});
+
 Route::get('/{register}', [QRCodeController::class, 'scan'])->middleware('redirect-con-guide');
 
 require __DIR__ . '/auth.php';
