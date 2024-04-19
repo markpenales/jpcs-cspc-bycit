@@ -23,7 +23,7 @@ class RedirectConGuideIfNotAdmin
         }
 
         // TODO: Redirect to con guide
-        return redirect()->route('home');
+        return redirect('https://docs.google.com/forms/d/e/1FAIpQLScHweakw-w00NXAocwVYhJQ19mApTy3S4zHDfptnW_wSIdchQ/viewform');
 
     }
 }
