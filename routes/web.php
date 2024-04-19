@@ -62,7 +62,7 @@ Route::get('/participants', function () {
 
 Route::get('/section/{section}', function (Section $section) {
     $attendances = Attendance::with('registration.user')
-        ->where('section_id', $section->id)
+        ->where('registration.user.section_id', $section->id)
         ->get()
         ->groupBy('venue')
         ->map(function ($attendances) {
