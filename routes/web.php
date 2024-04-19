@@ -62,12 +62,15 @@ Route::get('/participants', function () {
 
 Route::get('/section/{section}', function (Section $section) {
     $attendances = Attendance::with('registration.user')
-        ->where('registration.user.section_id', $section->id)
+        ->whereHas('registration.user', function ($query) use ($section) {
+            $query->where('section_id', $section->id);
+        })
         ->get()
         ->groupBy('venue')
         ->map(function ($attendances) {
             return $attendances->pluck('registration.user.name')->unique();
         });
+
     dd($attendances);
 });
 
