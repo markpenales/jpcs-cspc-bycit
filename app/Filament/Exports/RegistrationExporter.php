@@ -31,8 +31,7 @@ class RegistrationExporter extends Exporter
                 }),
             ExportColumn::make('user.restrictions')
                 ->state(function (Registration $registration) {
-                    if($registration->user == null)
-                    {
+                    if ($registration->user == null) {
                         return collect([]);
                     }
 
@@ -54,6 +53,11 @@ class RegistrationExporter extends Exporter
                     return $state ? 'Yes' : 'No';
                 })
                 ->label('Paid'),
+            ExportColumn::make('got_kits')
+                ->state(function (Registration $registration) {
+                    return $registration->attendances()->where('venue', 'Kit Retrieval')->exists() ? 'Yes' : 'No';
+                })
+                ->label('Kits Claimed'),
             ExportColumn::make('created_at'),
             ExportColumn::make('updated_at'),
         ];
